@@ -4,26 +4,38 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+
+    #region Vars
+
     private float maxZLimit = 7.5f;
     private float minZLimit = -7.5f;
 
-    [SerializeField] private float zMoveAmount = 5f;
+    [SerializeField] private PlayerData _playerData;
+
+    #endregion
     
-    void Start()
-    {
-    }
+
+    #region Updates
 
     void Update()
     {
+        UpdateMovement();
+    }
+
+    private void UpdateMovement()
+    {
         if (Input.GetKey("a"))
         {
-            var zPos = transform.position.z + zMoveAmount * Time.deltaTime;
+            var zPos = transform.position.z + _playerData.playerSpeed * Time.deltaTime;
             transform.position = new Vector3(transform.position.x, transform.position.y, Mathf.Clamp(zPos,minZLimit, maxZLimit));
         }
         if (Input.GetKey("d"))
         {
-            var zPos = transform.position.z + -zMoveAmount * Time.deltaTime;
+            var zPos = transform.position.z + -_playerData.playerSpeed * Time.deltaTime;
             transform.position = new Vector3(transform.position.x, transform.position.y, Mathf.Clamp(zPos,minZLimit, maxZLimit));
         }
     }
+
+    #endregion
+   
 }
