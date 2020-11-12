@@ -66,9 +66,9 @@ public class ObjectPoolManager : MonoBehaviour
         return objectToSpawn;
     }
 
-    public void ReturnToPool(GameObject gameObject)
+    public void ReturnToPool(GameObject pooledObj)
     {
-        gameObject.SetActive(false);
+        pooledObj.SetActive(false);
     }
 
     void CreatePools()

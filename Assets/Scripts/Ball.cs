@@ -21,4 +21,10 @@ public class Ball : MonoBehaviour
     {
         _rigidbody.AddForce(_ballData.GetInitialSpawnForce(transform), ForceMode.Impulse);
     }
+
+    public void StopPhysics()
+    {
+        _rigidbody.velocity = Vector3.zero;
+        _rigidbody.angularVelocity = Vector3.zero;
+    }
 }

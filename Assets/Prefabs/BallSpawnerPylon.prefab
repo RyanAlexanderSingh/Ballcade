@@ -119,7 +119,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 503602008769447792}
-  m_Material: {fileID: 13400000, guid: ef1f135a907c65b418367b913b22b984, type: 2}
+  m_Material: {fileID: 13400000, guid: 544c211b49172434b8e21e605d88e970, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5
@@ -139,7 +139,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spawnPoint: {fileID: 503602007809071590}
-  _ballPrefab: {fileID: -4718824157579958096, guid: 3d7e6b68423da9844a0fc2c28c4e5cb4,
-    type: 3}
   spawnBall: 0
-  power: 10

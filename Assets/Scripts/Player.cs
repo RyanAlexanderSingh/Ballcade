@@ -7,8 +7,8 @@ public class Player : MonoBehaviour
 
     #region Vars
 
-    private float maxZLimit = 7.5f;
-    private float minZLimit = -7.5f;
+    private float maxXLimit = 7.5f;
+    private float minXLimit = -7.5f;
 
     [SerializeField] private PlayerData _playerData;
 
@@ -26,13 +26,14 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKey("a"))
         {
-            var zPos = transform.position.z + _playerData.playerSpeed * Time.deltaTime;
-            transform.position = new Vector3(transform.position.x, transform.position.y, Mathf.Clamp(zPos,minZLimit, maxZLimit));
+            var xPos = transform.position.x + -_playerData.playerSpeed * Time.deltaTime;
+            transform.position = new Vector3(Mathf.Clamp(xPos, minXLimit, maxXLimit), transform.position.y, transform.position.z);
         }
         if (Input.GetKey("d"))
         {
-            var zPos = transform.position.z + -_playerData.playerSpeed * Time.deltaTime;
-            transform.position = new Vector3(transform.position.x, transform.position.y, Mathf.Clamp(zPos,minZLimit, maxZLimit));
+            var xPos = transform.position.x + _playerData.playerSpeed * Time.deltaTime;
+            transform.position = new Vector3(Mathf.Clamp(xPos, minXLimit, maxXLimit), transform.position.y, transform.position.z);
+
         }
     }
 
