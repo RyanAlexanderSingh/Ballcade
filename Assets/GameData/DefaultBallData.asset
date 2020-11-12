@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7eaaa2f9083c6df43a4198cb450b5dff, type: 3}
-  m_Name: PlayerData
+  m_Script: {fileID: 11500000, guid: 33aca09b9290360499235e1d159b065e, type: 3}
+  m_Name: DefaultBallData
   m_EditorClassIdentifier: 
-  playerSpeed: 15
+  _initalInpulsePower: 10
