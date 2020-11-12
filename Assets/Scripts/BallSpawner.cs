@@ -4,26 +4,41 @@ using UnityEngine;
 
 public class BallSpawner : MonoBehaviour
 {
-   [SerializeField] private Transform _spawnPoint;
+    #region Serialized Fields
 
-   [SerializeField] private Ball _ballPrefab;
+    [SerializeField] private Transform _spawnPoint;
 
-   public bool spawnBall;
-   public float power;
+    #endregion
 
-   private void Update()
-   {
-      if (spawnBall)
-      {
-         spawnBall = false;
-         SpawnBall();
-      }
-   }
-   
-   private void SpawnBall()
-   {
-      Ball ball = Instantiate(_ballPrefab, _spawnPoint);
-      ball.ApplySpawnForce();
-   }
-   
+    #region Vars
+
+    public bool spawnBall;
+
+    #endregion
+
+
+    #region Update
+
+    private void Update()
+    {
+        if (spawnBall)
+        {
+            spawnBall = false;
+            SpawnBall();
+        }
+    }
+
+    #endregion
+
+
+    #region Spawn
+
+    public void SpawnBall()
+    {
+        GameObject pooledBall = ObjectPoolManager.instance.SpawnFromPool(PoolableObjects.Ball, _spawnPoint.position, _spawnPoint.rotation);
+        Ball ball = pooledBall.GetComponent<Ball>();
+        ball.ApplySpawnForce();
+    }
+
+    #endregion
 }
