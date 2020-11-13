@@ -24,19 +24,17 @@ public class Player : MonoBehaviour
 
     private void UpdateMovement()
     {
-        if (Input.GetKey("a"))
-        {
-            var xPos = transform.position.x + -_playerData.playerSpeed * Time.deltaTime;
-            transform.position = new Vector3(Mathf.Clamp(xPos, minXLimit, maxXLimit), transform.position.y, transform.position.z);
-        }
-        if (Input.GetKey("d"))
-        {
-            var xPos = transform.position.x + _playerData.playerSpeed * Time.deltaTime;
-            transform.position = new Vector3(Mathf.Clamp(xPos, minXLimit, maxXLimit), transform.position.y, transform.position.z);
+        float h = Input.GetAxisRaw ("Horizontal");
 
-        }
+        Vector3 currentPosition = transform.position;
+        
+        if (h == 0f) 
+            return;
+        
+        float movementSpeed = currentPosition.x + (h * _playerData.playerSpeed * Time.deltaTime);
+        transform.position = new Vector3(Mathf.Clamp(movementSpeed, minXLimit, maxXLimit), currentPosition.y, currentPosition.z);
     }
 
     #endregion
-   
+    
 }
