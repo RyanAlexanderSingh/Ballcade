@@ -55,12 +55,15 @@ public class ObjectPoolManager : MonoBehaviour
             return null;
         }
 
-        GameObject objectToSpawn = poolDictionary[poolableObject].Dequeue();
+         GameObject objectToSpawn = poolDictionary[poolableObject].Dequeue();
 
+        objectToSpawn.SetActive(true);
         objectToSpawn.transform.position = position;
         objectToSpawn.transform.rotation = rotation;
+
+        IPooledObject pooledObject = objectToSpawn.GetComponent<IPooledObject>();
+        pooledObject.OnObjectSpawned();
         
-        objectToSpawn.SetActive(true);
         poolDictionary[poolableObject].Enqueue(objectToSpawn);
 
         return objectToSpawn;
@@ -98,6 +101,6 @@ public class ObjectPoolManager : MonoBehaviour
 
         return obj;
     }
-
+    
     #endregion
 }

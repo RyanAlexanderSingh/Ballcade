@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Ball : MonoBehaviour
+public class Ball : MonoBehaviour, IPooledObject
 {
     #region ScriptableObjects
 
@@ -16,6 +16,10 @@ public class Ball : MonoBehaviour
 
     #endregion
 
+    public void OnObjectSpawned()
+    {
+        StopPhysics();
+    }
 
     public void ApplySpawnForce()
     {
