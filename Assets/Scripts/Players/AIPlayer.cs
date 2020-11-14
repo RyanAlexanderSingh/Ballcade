@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class AIPlayer : Player, IPlayer
 {
-
     #region Vars
 
     private List<Transform> _activeBalls = new List<Transform>();
@@ -13,7 +12,7 @@ public class AIPlayer : Player, IPlayer
     private Transform _activeTargetBall;
 
     #endregion
-    
+
 
     #region Updates
 
@@ -21,12 +20,11 @@ public class AIPlayer : Player, IPlayer
     {
         StartCoroutine(CoSetClosestActiveBall());
     }
-    
+
 
     public void UpdateActiveBallsList(List<Transform> activeBalls)
     {
         _activeBalls = activeBalls;
-        
     }
 
     public void ManualUpdate()
@@ -35,7 +33,7 @@ public class AIPlayer : Player, IPlayer
         {
             Debug.DrawRay(transform.position, _activeTargetBall.position - transform.position, Color.green);
         }
-        
+
         UpdateMovement();
     }
 
@@ -48,7 +46,7 @@ public class AIPlayer : Player, IPlayer
                 var activeBalls = _activeBalls;
                 _activeTargetBall = GetClosestBallTransform(activeBalls);
             }
-            
+
             yield return new WaitForSeconds(0.3f);
         }
     }
@@ -60,7 +58,8 @@ public class AIPlayer : Player, IPlayer
             return;
 
         Vector3 targetPos = GetClampedTargetPosition(_activeTargetBall.transform.position);
-        transform.position = Vector3.MoveTowards(transform.position, targetPos, Time.deltaTime * _playerData.playerSpeed);
+        transform.position =
+            Vector3.MoveTowards(transform.position, targetPos, Time.deltaTime * _playerData.playerSpeed);
     }
 
     #endregion
@@ -70,21 +69,28 @@ public class AIPlayer : Player, IPlayer
     Transform GetClosestBallTransform(List<Transform> balls)
     {
         Transform tMin = null;
-        float minDist = Mathf.Infinity;
+        float minBallDist = Mathf.Infinity;
+        float maxDistToLook = 10f;
         Vector3 currentPos = transform.position;
-        
+
         foreach (Transform t in balls)
         {
             float dist = Vector3.Distance(t.position, currentPos);
-            if (dist < minDist)
+            if (dist < minBallDist && dist < maxDistToLook)
             {
-                tMin = t;
-                minDist = dist;
+                Vector3 targetDir = transform.position - t.position;
+                float angle = Vector3.Angle(targetDir, t.forward);
+                if (angle < 40f)
+                {
+                    Debug.Log(angle);
+                    tMin = t;
+                    minBallDist = dist;
+                }
             }
         }
+
         return tMin;
     }
 
     #endregion
-    
 }
