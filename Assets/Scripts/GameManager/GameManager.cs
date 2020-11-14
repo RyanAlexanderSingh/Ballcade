@@ -2,12 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Object = System.Object;
 using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
-
     #region Vars
 
     [SerializeField] private List<BallSpawner> _ballSpawners = new List<BallSpawner>();
@@ -17,18 +15,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private AIPlayerMananger _aiPlayerMananger;
 
     private List<Transform> _activeBallsInScene = new List<Transform>();
-    
-    #endregion
-    
-    #region Consts
-
-    private const string _kBallLayerName = "Ball";
 
     #endregion
 
 
     #region Initialise
-    
 
     void Start()
     {
@@ -36,15 +27,15 @@ public class GameManager : MonoBehaviour
         AddListeners();
     }
 
-
     #endregion
+
 
     #region Coroutines
 
     private IEnumerator CoSpawnBalls()
     {
         int numSpawners = _ballSpawners.Count;
-        
+
         while (true)
         {
             yield return new WaitForSeconds(_spawnDelay);
@@ -59,23 +50,23 @@ public class GameManager : MonoBehaviour
         // remove the ball from active balls list immediately
         _activeBallsInScene.Remove(scoredBall.transform);
         _aiPlayerMananger.UpdateActiveBallsForAI(_activeBallsInScene);
-        
+
         yield return new WaitForSeconds(_ballReturnToPoolDelay);
-        
+
         scoredBall.Deactivate();
-        
+
         ObjectPoolManager.instance.ReturnToPool(scoredBall.gameObject);
     }
 
     #endregion
 
-    
+
     #region Listeners
 
     private void OnGoalColliderEventHandler(GameObject collisionObj)
     {
         Ball ball = collisionObj.GetComponent<Ball>();
-        
+
         if (ball == null)
             return;
 
@@ -98,7 +89,7 @@ public class GameManager : MonoBehaviour
         AddGoalColliderListeners();
         AddBallSpawnerListeners();
     }
-    
+
     private void RemoveListeners()
     {
         RemoveGoalColliderListeners();
@@ -138,6 +129,7 @@ public class GameManager : MonoBehaviour
     }
 
     #endregion
+
 
     #region Destroy
 
