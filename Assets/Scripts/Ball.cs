@@ -15,6 +15,18 @@ public class Ball : MonoBehaviour, IPooledObject
     [SerializeField] private Rigidbody _rigidbody;
 
     #endregion
+    
+    void FixedUpdate()
+    {
+        if (_rigidbody.velocity.magnitude < 5f)
+        {
+            Debug.Log("speed too slow, speeding it up");
+            Vector2 v = _rigidbody.velocity;
+            v = v.normalized;
+            v *= 10f;
+            _rigidbody.velocity = v;
+        }
+    }
 
     public void OnObjectSpawned()
     {
