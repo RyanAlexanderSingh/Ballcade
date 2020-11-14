@@ -9,10 +9,12 @@ public class Ball : MonoBehaviour, IPooledObject
     [SerializeField] private BallData _ballData;
 
     #endregion
+    
 
     #region Vars
 
     [SerializeField] private Rigidbody _rigidbody;
+    [SerializeField] private TrailRenderer _trailRenderer;
 
     #endregion
     
@@ -38,7 +40,13 @@ public class Ball : MonoBehaviour, IPooledObject
         _rigidbody.AddForce(_ballData.GetInitialSpawnForce(transform), ForceMode.Impulse);
     }
 
-    public void StopPhysics()
+    public void Deactivate()
+    {
+        StopPhysics();
+        _trailRenderer.Clear();
+    }
+
+    private void StopPhysics()
     {
         _rigidbody.velocity = Vector3.zero;
         _rigidbody.angularVelocity = Vector3.zero;

@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour
         
         yield return new WaitForSeconds(_ballReturnToPoolDelay);
         
-        scoredBall.StopPhysics();
+        scoredBall.Deactivate();
         
         ObjectPoolManager.instance.ReturnToPool(scoredBall.gameObject);
     }

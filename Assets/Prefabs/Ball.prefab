@@ -50,6 +50,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ballData: {fileID: 11400000, guid: 6f73de28fae641849b20b58f12c6d84f, type: 2}
   _rigidbody: {fileID: 3419475119880091917}
+  _trailRenderer: {fileID: 8258598504548778985}
 --- !u!33 &2750351491827827490
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -198,6 +199,12 @@ PrefabInstance:
 --- !u!4 &575189102922023639 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4141023764531549233, guid: 64529e27d9e9d6646a2e342c144b260a,
+    type: 3}
+  m_PrefabInstance: {fileID: 4507158048393746150}
+  m_PrefabAsset: {fileID: 0}
+--- !u!96 &8258598504548778985 stripped
+TrailRenderer:
+  m_CorrespondingSourceObject: {fileID: 5481104806552442127, guid: 64529e27d9e9d6646a2e342c144b260a,
     type: 3}
   m_PrefabInstance: {fileID: 4507158048393746150}
   m_PrefabAsset: {fileID: 0}
