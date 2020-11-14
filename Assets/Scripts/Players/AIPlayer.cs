@@ -78,14 +78,14 @@ public class AIPlayer : Player, IPlayer
             float dist = Vector3.Distance(t.position, currentPos);
             if (dist < minBallDist && dist < maxDistToLook)
             {
-                Vector3 targetDir = transform.position - t.position;
-                float angle = Vector3.Angle(targetDir, t.forward);
-                if (angle < 40f)
-                {
-                    Debug.Log(angle);
+//                Vector3 targetDir = transform.position - t.position;
+//                float angle = Vector3.Angle(targetDir, t.forward);
+//                if (angle < 40f)
+//                {
+//                    Debug.Log(angle);
                     tMin = t;
                     minBallDist = dist;
-                }
+//                }
             }
         }
 
