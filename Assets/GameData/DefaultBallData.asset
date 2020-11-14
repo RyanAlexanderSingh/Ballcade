@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33aca09b9290360499235e1d159b065e, type: 3}
   m_Name: DefaultBallData
   m_EditorClassIdentifier: 
-  _initalInpulsePower: 4
+  _initalInpulsePower: 2

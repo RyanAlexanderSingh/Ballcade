@@ -39,6 +39,10 @@ public class GameManager : MonoBehaviour
         AddListeners();
     }
 
+    private void Update()
+    {
+    }
+
     #endregion
 
     #region Coroutines
