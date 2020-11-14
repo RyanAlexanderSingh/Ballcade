@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,6 +14,12 @@ public class BallSpawner : MonoBehaviour
     #region Vars
 
     public bool spawnBall;
+
+    #endregion
+
+    #region Events
+
+    public event Action<Transform> OnBallSpawnedEvent;
 
     #endregion
 
@@ -38,6 +45,8 @@ public class BallSpawner : MonoBehaviour
         GameObject pooledBall = ObjectPoolManager.instance.SpawnFromPool(PoolableObjects.Ball, _spawnPoint.position, _spawnPoint.rotation);
         Ball ball = pooledBall.GetComponent<Ball>();
         ball.ApplySpawnForce();
+
+        OnBallSpawnedEvent?.Invoke(ball.transform);
     }
 
     #endregion

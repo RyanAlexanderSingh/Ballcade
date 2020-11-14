@@ -14,9 +14,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<GoalCollider> _goalColliders = new List<GoalCollider>();
     [SerializeField] private float _spawnDelay;
     [SerializeField] private float _ballReturnToPoolDelay = 2f;
-    
-    private int ballLayer;
+    [SerializeField] private AIPlayerMananger _aiPlayerMananger;
 
+    private List<Transform> _activeBallsInScene = new List<Transform>();
+    
     #endregion
     
     #region Consts
@@ -24,14 +25,10 @@ public class GameManager : MonoBehaviour
     private const string _kBallLayerName = "Ball";
 
     #endregion
-   
-    
+
+
     #region Initialise
     
-    void Awake()
-    {
-        ballLayer = LayerMask.NameToLayer(_kBallLayerName);
-    }
 
     void Start()
     {
@@ -39,9 +36,6 @@ public class GameManager : MonoBehaviour
         AddListeners();
     }
 
-    private void Update()
-    {
-    }
 
     #endregion
 
@@ -62,6 +56,10 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator CoHandleScoredBallObj(Ball scoredBall)
     {
+        // remove the ball from active balls list immediately
+        _activeBallsInScene.Remove(scoredBall.transform);
+        _aiPlayerMananger.UpdateActiveBallsForAI(_activeBallsInScene);
+        
         yield return new WaitForSeconds(_ballReturnToPoolDelay);
         
         scoredBall.StopPhysics();
@@ -71,9 +69,7 @@ public class GameManager : MonoBehaviour
 
     #endregion
 
-
-   
-
+    
     #region Listeners
 
     private void OnGoalColliderEventHandler(GameObject collisionObj)
@@ -86,6 +82,12 @@ public class GameManager : MonoBehaviour
         StartCoroutine(CoHandleScoredBallObj(ball));
     }
 
+    private void OnBallSpawnedEventHandler(Transform ballTransform)
+    {
+        _activeBallsInScene.Add(ballTransform.transform);
+        _aiPlayerMananger.UpdateActiveBallsForAI(_activeBallsInScene);
+    }
+
     #endregion
 
 
@@ -94,11 +96,13 @@ public class GameManager : MonoBehaviour
     private void AddListeners()
     {
         AddGoalColliderListeners();
+        AddBallSpawnerListeners();
     }
     
     private void RemoveListeners()
     {
         RemoveGoalColliderListeners();
+        RemoveBallSpawnerListener();
     }
 
     private void AddGoalColliderListeners()
@@ -114,6 +118,22 @@ public class GameManager : MonoBehaviour
         foreach (var goalCollider in _goalColliders)
         {
             goalCollider.OnCollisionEnterEvent -= OnGoalColliderEventHandler;
+        }
+    }
+
+    private void AddBallSpawnerListeners()
+    {
+        foreach (var ballSpawner in _ballSpawners)
+        {
+            ballSpawner.OnBallSpawnedEvent += OnBallSpawnedEventHandler;
+        }
+    }
+
+    private void RemoveBallSpawnerListener()
+    {
+        foreach (var ballSpawner in _ballSpawners)
+        {
+            ballSpawner.OnBallSpawnedEvent -= OnBallSpawnedEventHandler;
         }
     }
 
