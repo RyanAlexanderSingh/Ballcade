@@ -11,6 +11,8 @@ public class AIPlayer : Player, IPlayer
 
     private Transform _activeTargetBall;
 
+    private AIPlayerData _aiPlayerData;
+    
     #endregion
 
 
@@ -18,6 +20,12 @@ public class AIPlayer : Player, IPlayer
 
     private void Start()
     {
+        _aiPlayerData = _playerData as AIPlayerData;
+        if (_aiPlayerData == null)
+        {
+            Debug.LogError("Incorrect PlayerData has been provided to this AIPlayer");
+        }
+        
         StartCoroutine(CoSetClosestActiveBall());
     }
 
@@ -47,7 +55,7 @@ public class AIPlayer : Player, IPlayer
                 _activeTargetBall = GetClosestBallTransform(activeBalls);
             }
 
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(_aiPlayerData.defaultReactionDelay);
         }
     }
 
