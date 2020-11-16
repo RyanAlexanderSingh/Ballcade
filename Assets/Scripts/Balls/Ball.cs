@@ -29,7 +29,7 @@ public class Ball : MonoBehaviour, IPooledObject
         
         Vector2 v = _rigidbody.velocity;
         v = v.normalized;
-        v *= 6;
+        v *= _ballData.MinimumVelocity;
         _rigidbody.velocity = v;
     }
 
