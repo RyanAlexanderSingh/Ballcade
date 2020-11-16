@@ -121,6 +121,25 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &35280727 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5131306634339381627, guid: f439314a43a5332489d29926f7e9fbe1,
+    type: 3}
+  m_PrefabInstance: {fileID: 5473977892059327573}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &35280728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 35280727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03cb126bcda04b443ad01e70bd77e7e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerData: {fileID: 11400000, guid: 2e1ba440a9c42b245a23307442d904e8, type: 2}
 --- !u!1 &69844711
 GameObject:
   m_ObjectHideFlags: 0
@@ -194,6 +213,7 @@ MonoBehaviour:
   - {fileID: 263776363}
   - {fileID: 1013901929}
   - {fileID: 1808232802}
+  - {fileID: 35280728}
 --- !u!1 &172957523
 GameObject:
   m_ObjectHideFlags: 0
@@ -431,7 +451,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03cb126bcda04b443ad01e70bd77e7e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerData: {fileID: 11400000, guid: e7939464e39c51b419c790b39a2d67e2, type: 2}
+  _playerData: {fileID: 11400000, guid: 2e1ba440a9c42b245a23307442d904e8, type: 2}
 --- !u!1 &415131577
 GameObject:
   m_ObjectHideFlags: 0
@@ -1039,7 +1059,6 @@ GameObject:
   - component: {fileID: 1013590862}
   - component: {fileID: 1013590861}
   - component: {fileID: 1013590860}
-  - component: {fileID: 1013590859}
   m_Layer: 0
   m_Name: Plane
   m_TagString: Untagged
@@ -1047,22 +1066,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!54 &1013590859
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1013590858}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!64 &1013590860
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1162,7 +1165,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03cb126bcda04b443ad01e70bd77e7e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerData: {fileID: 11400000, guid: e7939464e39c51b419c790b39a2d67e2, type: 2}
+  _playerData: {fileID: 11400000, guid: 2e1ba440a9c42b245a23307442d904e8, type: 2}
 --- !u!114 &1265770462 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 503602008769447759, guid: 97ad4a736056f46408fb77e91a948073,
@@ -1658,7 +1661,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03cb126bcda04b443ad01e70bd77e7e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerData: {fileID: 11400000, guid: e7939464e39c51b419c790b39a2d67e2, type: 2}
+  _playerData: {fileID: 11400000, guid: 2e1ba440a9c42b245a23307442d904e8, type: 2}
 --- !u!4 &1821292066 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8782739063101208789, guid: 74f0651ae0ec3cb4091c3252a60db8d6,
@@ -1918,12 +1921,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerPuck
       objectReference: {fileID: 0}
-    - target: {fileID: 5473977891315009510, guid: f439314a43a5332489d29926f7e9fbe1,
-        type: 3}
-      propertyPath: m_Material
-      value: 
-      objectReference: {fileID: 13400000, guid: 937dfabfd369a2041bc71eba3b66c46e,
-        type: 2}
     - target: {fileID: 5511773307832576961, guid: f439314a43a5332489d29926f7e9fbe1,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1979,5 +1976,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5473977891315009511, guid: f439314a43a5332489d29926f7e9fbe1, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f439314a43a5332489d29926f7e9fbe1, type: 3}
