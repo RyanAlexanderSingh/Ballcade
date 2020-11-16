@@ -43,18 +43,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private IEnumerator CoHandleScoredBallObj(Ball scoredBall)
-    {
-        // remove the ball from active balls list for the ai to consider immediately
-        _activeBallsInScene.Remove(scoredBall.transform);
-        _aiPlayerMananger.UpdateActiveBallsForAI(_activeBallsInScene);
 
-        yield return new WaitForSeconds(_ballReturnToPoolDelay);
-
-        scoredBall.Deactivate();
-
-        ObjectPoolManager.instance.ReturnToPool(scoredBall.gameObject);
-    }
 
     #endregion
 
@@ -67,8 +56,12 @@ public class GameManager : MonoBehaviour
 
         if (ball == null)
             return;
+        
+        // remove the ball from active balls list for the ai to consider immediately
+        _activeBallsInScene.Remove(ball.transform);
+        _aiPlayerMananger.UpdateActiveBallsForAI(_activeBallsInScene);
 
-        StartCoroutine(CoHandleScoredBallObj(ball));
+        ball.Scored();
     }
 
     public void OnBallSpawnedEventHandler(GameObject ballGo)

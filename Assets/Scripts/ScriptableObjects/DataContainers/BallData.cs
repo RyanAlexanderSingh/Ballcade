@@ -9,12 +9,18 @@ public class BallData : ScriptableObject
 
     [SerializeField] private float _initalInpulsePower = 10f;
     [SerializeField] private int _pointValue = 1;
+    [SerializeField] private float _despawnDelayAfterGoal = 0.5f;
 
     #endregion
 
     public int GetPointsValueForGoal()
     {
         return _pointValue;
+    }
+
+    public float GetDespawnDelayAfterBeingScored()
+    {
+        return _despawnDelayAfterGoal;
     }
     
 

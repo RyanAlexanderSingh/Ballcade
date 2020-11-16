@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class Ball : MonoBehaviour, IPooledObject
 {
@@ -25,7 +26,6 @@ public class Ball : MonoBehaviour, IPooledObject
     {
         if (_rigidbody.velocity.magnitude < 5f)
         {
-            Debug.Log("speed too slow, speeding it up");
             Vector2 v = _rigidbody.velocity;
             v = v.normalized;
             v *= 10f;
@@ -43,10 +43,24 @@ public class Ball : MonoBehaviour, IPooledObject
         _rigidbody.AddForce(_ballData.GetInitialSpawnForce(transform), ForceMode.Impulse);
     }
 
-    public void Deactivate()
+    private void Deactivate()
     {
         StopPhysics();
         _trailRenderer.Clear();
+    }
+
+    public void Scored()
+    {
+        StartCoroutine(CoHandleScoredBallObj());
+    }
+    
+    private IEnumerator CoHandleScoredBallObj()
+    {
+        yield return new WaitForSeconds(_ballData.GetDespawnDelayAfterBeingScored());
+        
+        Deactivate();
+
+        ObjectPoolManager.instance.ReturnToPool(gameObject);
     }
 
     private void StopPhysics()

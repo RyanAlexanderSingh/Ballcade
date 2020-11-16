@@ -8,7 +8,7 @@ public class GameLevelData : ScriptableObject
     #region Vars
 
     [SerializeField] private int _numOfLives;
-
+    
     #endregion
 
     public int GetNumberOfLivesForLevel()
