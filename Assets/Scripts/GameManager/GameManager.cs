@@ -9,7 +9,6 @@ public class GameManager : MonoBehaviour
     #region Vars
 
     [SerializeField] private List<BallSpawner> _ballSpawners = new List<BallSpawner>();
-    [SerializeField] private List<GoalCollider> _goalColliders = new List<GoalCollider>();
     [SerializeField] private float _spawnDelay;
     [SerializeField] private float _ballReturnToPoolDelay = 2f;
     [SerializeField] private AIPlayerMananger _aiPlayerMananger;
@@ -24,7 +23,6 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         StartCoroutine(CoSpawnBalls());
-        AddListeners();
     }
 
     #endregion
@@ -63,7 +61,7 @@ public class GameManager : MonoBehaviour
 
     #region Listeners
 
-    private void OnGoalColliderEventHandler(GameObject collisionObj)
+    public void OnGoalColliderEventHandler(GameObject collisionObj)
     {
         Ball ball = collisionObj.GetComponent<Ball>();
 
@@ -73,69 +71,10 @@ public class GameManager : MonoBehaviour
         StartCoroutine(CoHandleScoredBallObj(ball));
     }
 
-    private void OnBallSpawnedEventHandler(Transform ballTransform)
+    public void OnBallSpawnedEventHandler(GameObject ballGo)
     {
-        _activeBallsInScene.Add(ballTransform.transform);
+        _activeBallsInScene.Add(ballGo.transform);
         _aiPlayerMananger.UpdateActiveBallsForAI(_activeBallsInScene);
-    }
-
-    #endregion
-
-
-    #region Events
-
-    private void AddListeners()
-    {
-        AddGoalColliderListeners();
-        AddBallSpawnerListeners();
-    }
-
-    private void RemoveListeners()
-    {
-        RemoveGoalColliderListeners();
-        RemoveBallSpawnerListener();
-    }
-
-    private void AddGoalColliderListeners()
-    {
-        foreach (var goalCollider in _goalColliders)
-        {
-            goalCollider.OnCollisionEnterEvent += OnGoalColliderEventHandler;
-        }
-    }
-
-    private void RemoveGoalColliderListeners()
-    {
-        foreach (var goalCollider in _goalColliders)
-        {
-            goalCollider.OnCollisionEnterEvent -= OnGoalColliderEventHandler;
-        }
-    }
-
-    private void AddBallSpawnerListeners()
-    {
-        foreach (var ballSpawner in _ballSpawners)
-        {
-            ballSpawner.OnBallSpawnedEvent += OnBallSpawnedEventHandler;
-        }
-    }
-
-    private void RemoveBallSpawnerListener()
-    {
-        foreach (var ballSpawner in _ballSpawners)
-        {
-            ballSpawner.OnBallSpawnedEvent -= OnBallSpawnedEventHandler;
-        }
-    }
-
-    #endregion
-
-
-    #region Destroy
-
-    private void OnDestroy()
-    {
-        RemoveListeners();
     }
 
     #endregion

@@ -139,4 +139,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spawnPoint: {fileID: 503602007809071590}
-  spawnBall: 0
+  OnBallSpawnedEvent: {fileID: 11400000, guid: c7bc5ed00bba52143a5b0299f3fcf643, type: 2}

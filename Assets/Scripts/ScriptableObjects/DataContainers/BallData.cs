@@ -8,9 +8,15 @@ public class BallData : ScriptableObject
     #region Vars
 
     [SerializeField] private float _initalInpulsePower = 10f;
+    [SerializeField] private int _pointValue = 1;
 
     #endregion
 
+    public int GetPointsValueForGoal()
+    {
+        return _pointValue;
+    }
+    
 
     #region Physics
 

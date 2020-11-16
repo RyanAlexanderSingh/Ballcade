@@ -8,18 +8,8 @@ public class GoalCollider : MonoBehaviour
     #region Vars
 
     [SerializeField] private BoxCollider _collider;
-
-    #endregion
-
-
-    #region Events
-
-    public event Action<GameObject> OnCollisionEnterEvent;
-
-    #endregion
-
-    #region Initialise
-
+    
+    [SerializeField] private GameEvent OnGoalScoredEvent;
 
     #endregion
 
@@ -28,7 +18,7 @@ public class GoalCollider : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        OnCollisionEnterEvent?.Invoke(other.gameObject);
+        OnGoalScoredEvent.Raise(other.gameObject);
     }
 
     #endregion

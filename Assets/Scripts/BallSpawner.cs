@@ -9,15 +9,10 @@ public class BallSpawner : MonoBehaviour
 
     [SerializeField] private Transform _spawnPoint;
 
+    [SerializeField] private GameEvent OnBallSpawnedEvent;
+
     #endregion
     
-
-    #region Events
-
-    public event Action<Transform> OnBallSpawnedEvent;
-
-    #endregion
-
 
     #region Spawn
 
@@ -29,7 +24,7 @@ public class BallSpawner : MonoBehaviour
         Ball ball = pooledBall.GetComponent<Ball>();
         ball.ApplySpawnForce();
 
-        OnBallSpawnedEvent?.Invoke(ball.transform);
+        OnBallSpawnedEvent.Raise(ball.gameObject);
     }
 
     #endregion
