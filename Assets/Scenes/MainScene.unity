@@ -173,7 +173,6 @@ MonoBehaviour:
   - {fileID: 1265770462}
   - {fileID: 929502852}
   _spawnDelay: 2
-  _ballReturnToPoolDelay: 1
   _aiPlayerMananger: {fileID: 69844714}
 --- !u!114 &69844714
 MonoBehaviour:
@@ -753,6 +752,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: GoalCollider
       objectReference: {fileID: 0}
+    - target: {fileID: 6155690425735014749, guid: 74f0651ae0ec3cb4091c3252a60db8d6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8782739063101208789, guid: 74f0651ae0ec3cb4091c3252a60db8d6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1124,6 +1128,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: GoalCollider
+      objectReference: {fileID: 0}
+    - target: {fileID: 6155690425735014749, guid: 74f0651ae0ec3cb4091c3252a60db8d6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8782739063101208789, guid: 74f0651ae0ec3cb4091c3252a60db8d6,
         type: 3}
@@ -1537,6 +1546,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: GoalCollider
       objectReference: {fileID: 0}
+    - target: {fileID: 6155690425735014749, guid: 74f0651ae0ec3cb4091c3252a60db8d6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8782739063101208789, guid: 74f0651ae0ec3cb4091c3252a60db8d6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1691,6 +1705,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: GoalCollider
+      objectReference: {fileID: 0}
+    - target: {fileID: 6155690425735014749, guid: 74f0651ae0ec3cb4091c3252a60db8d6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8782739063101208789, guid: 74f0651ae0ec3cb4091c3252a60db8d6,
         type: 3}
