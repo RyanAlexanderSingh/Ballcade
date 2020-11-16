@@ -9,7 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33aca09b9290360499235e1d159b065e, type: 3}
-  m_Name: DefaultBallData
+  m_Script: {fileID: 11500000, guid: d943bca26219b72409d5735e90001a26, type: 3}
+  m_Name: AIPlayerData
   m_EditorClassIdentifier: 
-  _initalInpulsePower: 2.5
+  playerSpeed: 10
+  maxMovePosition: 7.5
+  minMovePos: -7.5
+  defaultReactionDelay: 0.1
