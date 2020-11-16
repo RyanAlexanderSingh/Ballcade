@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private List<BallSpawner> _ballSpawners = new List<BallSpawner>();
     [SerializeField] private float _spawnDelay;
-    [SerializeField] private float _ballReturnToPoolDelay = 2f;
+    [SerializeField] private float _ballReturnToPoolDelay = 0.2f;
     [SerializeField] private AIPlayerMananger _aiPlayerMananger;
 
     private List<Transform> _activeBallsInScene = new List<Transform>();
@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator CoHandleScoredBallObj(Ball scoredBall)
     {
-        // remove the ball from active balls list immediately
+        // remove the ball from active balls list for the ai to consider immediately
         _activeBallsInScene.Remove(scoredBall.transform);
         _aiPlayerMananger.UpdateActiveBallsForAI(_activeBallsInScene);
 
