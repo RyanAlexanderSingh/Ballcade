@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
@@ -16,11 +17,19 @@ public class GameManager : MonoBehaviour
 
     #endregion
 
+    #region Consts
+
+    private const string _kArenaAdditiveScene = "Arena_01";
+
+    #endregion
+
 
     #region Initialise
 
     void Start()
     {
+        SceneManager.LoadScene(_kArenaAdditiveScene, LoadSceneMode.Additive);
+        
         StartCoroutine(CoSpawnBalls());
     }
 

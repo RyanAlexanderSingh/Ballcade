@@ -13,4 +13,6 @@ MonoBehaviour:
   m_Name: DefaultBallData
   m_EditorClassIdentifier: 
   _initalInpulsePower: 2.5
+  _minimumVelocity: 8
   _pointValue: 1
+  _despawnDelayAfterGoal: 0.5
