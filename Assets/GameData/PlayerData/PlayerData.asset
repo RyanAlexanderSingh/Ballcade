@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: PlayerData
   m_EditorClassIdentifier: 
   playerSpeed: 15
-  maxMovePosition: 7.5
-  minMovePos: -7.5
+  maxMovePosition: 5.7
+  minMovePos: -5.7
