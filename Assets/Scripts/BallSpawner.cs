@@ -10,30 +10,11 @@ public class BallSpawner : MonoBehaviour
     [SerializeField] private Transform _spawnPoint;
 
     #endregion
-
-    #region Vars
-
-    public bool spawnBall;
-
-    #endregion
+    
 
     #region Events
 
     public event Action<Transform> OnBallSpawnedEvent;
-
-    #endregion
-
-
-    #region Update
-
-    private void Update()
-    {
-        if (spawnBall)
-        {
-            spawnBall = false;
-            SpawnBall();
-        }
-    }
 
     #endregion
 
