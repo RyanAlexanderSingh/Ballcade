@@ -20,6 +20,11 @@ public class Ball : MonoBehaviour, IPooledObject
     
     void FixedUpdate()
     {
+        EnsureVelocityMinimum();
+    }
+
+    private void EnsureVelocityMinimum()
+    {
         if (_rigidbody.velocity.magnitude < 5f)
         {
             Debug.Log("speed too slow, speeding it up");
