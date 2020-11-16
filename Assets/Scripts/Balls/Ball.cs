@@ -16,21 +16,21 @@ public class Ball : MonoBehaviour, IPooledObject
     [SerializeField] private TrailRenderer _trailRenderer;
 
     #endregion
-    
-    void FixedUpdate()
+
+    private void FixedUpdate()
     {
         EnsureVelocityMinimum();
     }
 
     private void EnsureVelocityMinimum()
     {
-        if (_rigidbody.velocity.magnitude < 5f)
-        {
-            Vector2 v = _rigidbody.velocity;
-            v = v.normalized;
-            v *= 10f;
-            _rigidbody.velocity = v;
-        }
+        if (_rigidbody.velocity.magnitude >= _ballData.MinimumVelocity)
+            return;
+        
+        Vector2 v = _rigidbody.velocity;
+        v = v.normalized;
+        v *= 6;
+        _rigidbody.velocity = v;
     }
 
     public void OnObjectSpawned()
@@ -56,7 +56,7 @@ public class Ball : MonoBehaviour, IPooledObject
     
     private IEnumerator CoHandleScoredBallObj()
     {
-        yield return new WaitForSeconds(_ballData.GetDespawnDelayAfterBeingScored());
+        yield return new WaitForSeconds(_ballData.DespawnDelayAfterGoal);
         
         Deactivate();
 

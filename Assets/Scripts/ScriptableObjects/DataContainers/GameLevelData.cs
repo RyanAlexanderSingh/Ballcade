@@ -8,11 +8,18 @@ public class GameLevelData : ScriptableObject
     #region Vars
 
     [SerializeField] private int _numOfLives;
+
+    [SerializeField] private int _ballSpawnDelay;
+
+    public int NumberOfStartingLives => _numOfLives;
     
     #endregion
 
-    public int GetNumberOfLivesForLevel()
+    /*
+     * In future, this will not just be a standard number but will probably increase over time with a curve
+     */
+    public int GetNextBallSpawnDelay()
     {
-        return _numOfLives;
+        return _ballSpawnDelay;
     }
 }

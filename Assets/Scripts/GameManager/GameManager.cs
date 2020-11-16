@@ -10,7 +10,6 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private List<BallSpawner> _ballSpawners = new List<BallSpawner>();
     [SerializeField] private float _spawnDelay;
-    [SerializeField] private float _ballReturnToPoolDelay = 0.2f;
     [SerializeField] private AIPlayerMananger _aiPlayerMananger;
 
     private List<Transform> _activeBallsInScene = new List<Transform>();
