@@ -37,11 +37,6 @@ public class AIPlayerController : PlayerController, IPlayer
 
     public void ManualUpdate()
     {
-        if (_activeTargetBall != null)
-        {
-            Debug.DrawRay(transform.position, _activeTargetBall.position - transform.position, Color.green);
-        }
-
         UpdateMovement();
     }
 
@@ -64,6 +59,8 @@ public class AIPlayerController : PlayerController, IPlayer
     {
         if (_activeTargetBall == null)
             return;
+        
+        Debug.DrawRay(transform.position, _activeTargetBall.position - transform.position, Color.green);
 
         Vector3 targetPos = GetClampedTargetPosition(_activeTargetBall.transform.position);
         transform.position =
