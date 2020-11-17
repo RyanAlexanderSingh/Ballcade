@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class AIPlayer : Player, IPlayer
+public class AiPlayerController : PlayerController, IPlayer
 {
     #region Vars
 
@@ -71,6 +71,7 @@ public class AIPlayer : Player, IPlayer
     }
 
     #endregion
+    
 
     #region Ball Search
 

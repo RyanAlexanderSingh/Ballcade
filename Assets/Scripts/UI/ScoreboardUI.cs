@@ -21,7 +21,7 @@ public class ScoreboardUI : MonoBehaviour
 
     #region Initialise
 
-    public void CreateScoreboard(Dictionary<int, Sprite> players, int startingScore)
+    public void SetupScoreboard(Dictionary<int, Sprite> players, int startingScore)
     {
         foreach (var player in players)
         {

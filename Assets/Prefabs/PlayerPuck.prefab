@@ -58,7 +58,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f9e5e07c88d938a4d8f7a0a8ddfa81c2, type: 2}
+  - {fileID: 2100000, guid: 876f9a175c1485944b9d5c7ea44a2158, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -91,7 +91,6 @@ GameObject:
   - component: {fileID: 8922223548682478692}
   - component: {fileID: 6644758069580976302}
   - component: {fileID: 5473977891315009510}
-  - component: {fileID: 5473977891315009511}
   m_Layer: 0
   m_Name: PlayerPuck
   m_TagString: Untagged
@@ -140,7 +139,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1727699529736438207, guid: 48eae9e2cc0da2942b1d3a7d6dbd84dc, type: 3}
+  - {fileID: 2100000, guid: c62d9361c658cff468a9dbfcd96b4108, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -175,16 +174,3 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 3636718701590860266, guid: 48eae9e2cc0da2942b1d3a7d6dbd84dc, type: 3}
---- !u!114 &5473977891315009511
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5131306634339381627}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6cf726ae1ce8540ad9292c19bc2c2ebe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _playerData: {fileID: 11400000, guid: e7939464e39c51b419c790b39a2d67e2, type: 2}

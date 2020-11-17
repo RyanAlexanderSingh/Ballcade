@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UserPlayer : Player, IPlayer
+public class UserPlayerController : PlayerController, IPlayer
 {
     #region Updates
 

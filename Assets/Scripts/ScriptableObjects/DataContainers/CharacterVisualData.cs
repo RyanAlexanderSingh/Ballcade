@@ -11,12 +11,17 @@ public class CharacterVisualData : ScriptableObject
     private Material _modelMaterial;
     
     [SerializeField]
-    private Sprite _characterSprite;
+    private Material _puckMaterial;
+    
+    [SerializeField]
+    private Sprite characterPortraitSprite;
 
-    public Sprite CharacterSprite => _characterSprite;
+    public Sprite CharacterPortraitSprite => characterPortraitSprite;
     
     public Material CharacterMaterial => _modelMaterial;
-    
+
+    public Material PuckMaterial => _puckMaterial;
+
     #endregion
 
 
