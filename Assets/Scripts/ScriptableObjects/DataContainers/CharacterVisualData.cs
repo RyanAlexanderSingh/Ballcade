@@ -23,6 +23,4 @@ public class CharacterVisualData : ScriptableObject
     public Material PuckMaterial => _puckMaterial;
 
     #endregion
-
-
 }

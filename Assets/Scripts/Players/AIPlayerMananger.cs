@@ -4,12 +4,24 @@ using UnityEngine;
 
 public class AIPlayerMananger : MonoBehaviour
 {
+    #region Vars
+
     private List<AIPlayerController> _aiPlayers = new List<AIPlayerController>();
+
+    #endregion
+    
+
+    #region Initialise
 
     public void Initialise(List<AIPlayerController> aiPlayers)
     {
         _aiPlayers = aiPlayers;
     }
+
+    #endregion
+    
+
+    #region Update
 
     public void UpdateActiveBallsForAI(List<Transform> activeBalls)
     {
@@ -26,4 +38,7 @@ public class AIPlayerMananger : MonoBehaviour
             aiPlayer.ManualUpdate();
         }
     }
+
+    #endregion
+
 }

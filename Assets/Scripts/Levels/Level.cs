@@ -8,13 +8,13 @@ public class Level : MonoBehaviour
 
     [SerializeField]
     private Transform _playerStartingPosition;
-    
+
     [SerializeField]
     private List<Transform> _aiStartingPositions = new List<Transform>();
-    
-    [SerializeField] 
+
+    [SerializeField]
     private List<BallSpawner> _ballSpawners = new List<BallSpawner>();
-    
+
     private GameLevelData _gameLevelData;
 
     private bool isGameActive = true;
@@ -24,20 +24,20 @@ public class Level : MonoBehaviour
     public List<Transform> AIStartingPositions => _aiStartingPositions;
 
     #endregion
-    
-    
+
+
     #region Initialise
 
     public void Setup(GameLevelData gameLevelData)
     {
         _gameLevelData = gameLevelData;
-        
+
         StartCoroutine(CoSpawnBalls());
     }
 
-
     #endregion
-    
+
+
     #region Coroutines
 
     private IEnumerator CoSpawnBalls()
@@ -53,7 +53,5 @@ public class Level : MonoBehaviour
         }
     }
 
-
     #endregion
-    
 }
