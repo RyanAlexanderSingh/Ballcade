@@ -9,13 +9,29 @@ public class GameManager : MonoBehaviour
 {
     #region Vars
 
-    [SerializeField] private List<BallSpawner> _ballSpawners = new List<BallSpawner>();
-    [SerializeField] private float _spawnDelay;
-    [SerializeField] private AIPlayerMananger _aiPlayerMananger;
+    [SerializeField] 
+    private List<BallSpawner> _ballSpawners = new List<BallSpawner>();
+    
+    [SerializeField] 
+    private float _spawnDelay;
+    
+    [SerializeField] 
+    private AIPlayerMananger _aiPlayerMananger;
+    
+    [Header("UI")]
+    
+    [SerializeField]
+    private Canvas _canvas;
+
+    [SerializeField]
+    private ScoreboardUI _scoreboardUIPrefab;
 
     private List<Transform> _activeBallsInScene = new List<Transform>();
 
+    private ScoreboardUI _scoreboardUI;
+    
     #endregion
+    
 
     #region Consts
 
@@ -29,8 +45,15 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         SceneManager.LoadScene(_kArenaAdditiveScene, LoadSceneMode.Additive);
+
+        CreateUI();
         
         StartCoroutine(CoSpawnBalls());
+    }
+
+    private void CreateUI()
+    {
+        _scoreboardUI = Instantiate(_scoreboardUIPrefab, _canvas.transform);
     }
 
     #endregion
@@ -50,7 +73,6 @@ public class GameManager : MonoBehaviour
             _ballSpawners[randomIdx].SpawnBall();
         }
     }
-
 
 
     #endregion

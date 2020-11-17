@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: GreenCharacterData
   m_EditorClassIdentifier: 
   _modelMaterial: {fileID: 2100000, guid: 8d47ce9471db53d4e9f4864574db1bca, type: 2}
+  _characterSprite: {fileID: 21300000, guid: 613658c9c34bb454f8e18288b3927681, type: 3}

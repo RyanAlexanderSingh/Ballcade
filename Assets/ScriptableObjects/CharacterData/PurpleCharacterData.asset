@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: PurpleCharacterData
   m_EditorClassIdentifier: 
   _modelMaterial: {fileID: 2100000, guid: 876f9a175c1485944b9d5c7ea44a2158, type: 2}
+  _characterSprite: {fileID: 21300000, guid: c349ac9b7f0d2614e9e2d6a9dfefe84d, type: 3}
