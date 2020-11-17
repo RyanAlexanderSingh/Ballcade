@@ -69,10 +69,10 @@ public class GameManager : MonoBehaviour
         var playerController = Instantiate(_playerControllerPrefab, _activeLevel.PlayerStartingPosition, false);
         SetupOpponent(playerController);
 
-        List<AiPlayerController> aiPlayerControllers = new List<AiPlayerController>();
+        List<AIPlayerController> aiPlayerControllers = new List<AIPlayerController>();
         for (int i = _defaultGameLevelData.NumOfAIOpponents - 1; i >= 0; i--)
         {
-            var aiController = Instantiate(_aiControllerPrefab, _activeLevel.AIStartingPositions[i], false) as AiPlayerController;
+            var aiController = Instantiate(_aiControllerPrefab, _activeLevel.AIStartingPositions[i], false) as AIPlayerController;
             SetupOpponent(aiController);
             aiPlayerControllers.Add(aiController);
         }
