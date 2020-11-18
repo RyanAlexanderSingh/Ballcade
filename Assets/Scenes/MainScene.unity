@@ -531,8 +531,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1260552333}
-  - component: {fileID: 1260552335}
   - component: {fileID: 1260552334}
+  - component: {fileID: 1260552335}
   m_Layer: 0
   m_Name: GameEventListener
   m_TagString: Untagged
@@ -563,10 +563,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1260552332}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 75fde2f59a5505d4682a6381065aa4cd, type: 3}
+  m_Script: {fileID: 11500000, guid: f5ff728cc89e41240a7d778d2a50a440, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gameEvent: {fileID: 11400000, guid: c7bc5ed00bba52143a5b0299f3fcf643, type: 2}
+  baseGameEvent: {fileID: 11400000, guid: c7bc5ed00bba52143a5b0299f3fcf643, type: 2}
   _response:
     m_PersistentCalls:
       m_Calls:
@@ -590,10 +590,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1260552332}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 75fde2f59a5505d4682a6381065aa4cd, type: 3}
+  m_Script: {fileID: 11500000, guid: 8e43330752501fe4abe32871ab6ce62d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gameEvent: {fileID: 11400000, guid: 30681eb41bef321449bb238578de3d45, type: 2}
+  baseGameEvent: {fileID: 11400000, guid: e981bf2fbd0c15549b36d3f330a0b53b, type: 2}
   _response:
     m_PersistentCalls:
       m_Calls:

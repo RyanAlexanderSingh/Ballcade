@@ -9,7 +9,7 @@ public class BallSpawner : MonoBehaviour
 
     [SerializeField] private Transform _spawnPoint;
 
-    [SerializeField] private GameEvent OnBallSpawnedEvent;
+    [SerializeField] private GameObjectEvent OnBallSpawnedEvent;
 
     #endregion
     

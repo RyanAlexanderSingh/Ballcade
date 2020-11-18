@@ -14,6 +14,8 @@ public class Ball : MonoBehaviour, IPooledObject
 
     [SerializeField] private Rigidbody _rigidbody;
     [SerializeField] private TrailRenderer _trailRenderer;
+    
+    public int PointsValueForGoal => _ballData.PointsValueForGoal;
 
     #endregion
 

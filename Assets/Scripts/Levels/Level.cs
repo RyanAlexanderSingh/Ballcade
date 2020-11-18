@@ -7,10 +7,10 @@ public class Level : MonoBehaviour
     #region Vars
 
     [SerializeField]
-    private Transform _playerStartingPosition;
+    private PlayerSection _userPlayerSection;
 
     [SerializeField]
-    private List<Transform> _aiStartingPositions = new List<Transform>();
+    private List<PlayerSection> _aiSections = new List<PlayerSection>();
 
     [SerializeField]
     private List<BallSpawner> _ballSpawners = new List<BallSpawner>();
@@ -19,9 +19,9 @@ public class Level : MonoBehaviour
 
     private bool isGameActive = true;
 
-    public Transform PlayerStartingPosition => _playerStartingPosition;
+    public PlayerSection UserPlayerSection => _userPlayerSection;
 
-    public List<Transform> AIStartingPositions => _aiStartingPositions;
+    public List<PlayerSection> AISections => _aiSections;
 
     #endregion
 
