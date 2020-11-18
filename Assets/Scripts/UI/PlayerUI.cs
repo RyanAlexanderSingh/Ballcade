@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,8 +9,15 @@ public class PlayerUI : MonoBehaviour
 {
     #region Vars
 
-    [SerializeField] private TextMeshProUGUI _playerScore;
-    [SerializeField] private Image _playerImage;
+    [SerializeField]
+    private TextMeshProUGUI _playerScore;
+
+    [SerializeField]
+    private Image _playerImage;
+
+    [SerializeField]
+    private DOTweenAnimation _goalConceededAnimation;
+
 
     private int _currentScore;
 
@@ -29,7 +37,7 @@ public class PlayerUI : MonoBehaviour
 
     #endregion
 
-    
+
     #region Player Score
 
     private void SetPlayerScoreText(int score)
@@ -41,6 +49,8 @@ public class PlayerUI : MonoBehaviour
     {
         _currentScore -= scoreReduction;
         SetPlayerScoreText(_currentScore);
+
+        _goalConceededAnimation.DORestart();
     }
 
     #endregion
