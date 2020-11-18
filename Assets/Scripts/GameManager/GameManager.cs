@@ -42,6 +42,8 @@ public class GameManager : MonoBehaviour
 
     private Level _activeLevel;
 
+    private Dictionary<int, CharacterVisualData> _uniqueCharacterDataDict = new Dictionary<int, CharacterVisualData>();
+
     #endregion
 
     
@@ -66,10 +68,18 @@ public class GameManager : MonoBehaviour
 
     private void CreateOpponents()
     {
+        // assign random idx values to a dictionary so each player has a different skin
+        List<CharacterVisualData> _randomCharacterVisualDatas = _characterVisualDatas;
+        _randomCharacterVisualDatas.Shuffle();
+
+        for (int i = 0; i < _randomCharacterVisualDatas.Count; i++)
+        {
+            _uniqueCharacterDataDict[i] = _randomCharacterVisualDatas[i];
+        }
+        
         int opponentIdx = 0;
         // create the player first
-        var playerController = Instantiate(_playerControllerPrefab, _activeLevel.UserPlayerSection.StartingPosition, false);
-        SetupOpponent(playerController, opponentIdx);
+       var playerController = CreateAndSetupOpponent(_playerControllerPrefab, _activeLevel.UserPlayerSection.StartingPosition, opponentIdx);
         _activeLevel.UserPlayerSection.Setup(opponentIdx);
 
         List<AIPlayerController> aiPlayerControllers = new List<AIPlayerController>();
@@ -79,9 +89,7 @@ public class GameManager : MonoBehaviour
             ++opponentIdx;
 
             var AISection = _activeLevel.AISections[i];
-            
-            var aiController = Instantiate(_aiControllerPrefab, AISection.StartingPosition, false) as AIPlayerController;
-            SetupOpponent(aiController, opponentIdx);
+            var aiController = CreateAndSetupOpponent(_aiControllerPrefab, AISection.StartingPosition, opponentIdx) as AIPlayerController;
             aiPlayerControllers.Add(aiController);
             AISection.Setup(opponentIdx);
         }
@@ -89,12 +97,27 @@ public class GameManager : MonoBehaviour
         _aiPlayerMananger.Initialise(aiPlayerControllers);
     }
 
-    private void SetupOpponent(PlayerController playerController, int idx)
+    private PlayerController CreateAndSetupOpponent(PlayerController playerControllerPrefab, Transform playerParentTransform, int idx)
     {
-       var randomData = _characterVisualDatas[Random.Range(0, _characterVisualDatas.Count - 1)];
-       playerController.SetPlayerVisualData(randomData);
+        var playerController = Instantiate(playerControllerPrefab, playerParentTransform, false);
+        
+        _uniqueCharacterDataDict.TryGetValue(idx, out var visualData);
+        if (visualData == null) 
+            return null;
+        
+        playerController.SetPlayerVisualData(visualData);
        
-       _players[idx] = randomData.CharacterPortraitSprite;
+        _players[idx] = visualData.CharacterPortraitSprite;
+
+        return playerController;
+    }
+
+    private CharacterVisualData GetUniqueVisualData(List<CharacterVisualData> characterVisualDatas)
+    {
+        var randomVisualData = characterVisualDatas[Random.Range(0, characterVisualDatas.Count)];
+        characterVisualDatas.Remove(randomVisualData);
+
+        return randomVisualData;
     }
 
 
