@@ -99,8 +99,7 @@ public class GameManager : MonoBehaviour
         _aiPlayerMananger.Initialise(aiPlayerControllers);
     }
 
-    private PlayerController CreateAndSetupOpponent(PlayerController playerControllerPrefab,
-        Transform playerParentTransform, int idx)
+    private PlayerController CreateAndSetupOpponent(PlayerController playerControllerPrefab, Transform playerParentTransform, int idx)
     {
         var playerController = Instantiate(playerControllerPrefab, playerParentTransform, false);
 
