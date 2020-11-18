@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     private PlayerController _playerControllerPrefab;
-    
+
     [SerializeField]
     private PlayerController _aiControllerPrefab;
 
@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour
 
     #endregion
 
-    
+
     #region Initialise
 
     void Start()
@@ -76,10 +76,10 @@ public class GameManager : MonoBehaviour
         {
             _uniqueCharacterDataDict[i] = _randomCharacterVisualDatas[i];
         }
-        
+
         int opponentIdx = 0;
         // create the player first
-       var playerController = CreateAndSetupOpponent(_playerControllerPrefab, _activeLevel.UserPlayerSection.StartingPosition, opponentIdx);
+        CreateAndSetupOpponent(_playerControllerPrefab, _activeLevel.UserPlayerSection.StartingPosition, opponentIdx);
         _activeLevel.UserPlayerSection.Setup(opponentIdx);
 
         List<AIPlayerController> aiPlayerControllers = new List<AIPlayerController>();
@@ -89,7 +89,9 @@ public class GameManager : MonoBehaviour
             ++opponentIdx;
 
             var AISection = _activeLevel.AISections[i];
-            var aiController = CreateAndSetupOpponent(_aiControllerPrefab, AISection.StartingPosition, opponentIdx) as AIPlayerController;
+            var aiController =
+                CreateAndSetupOpponent(_aiControllerPrefab, AISection.StartingPosition, opponentIdx) as
+                    AIPlayerController;
             aiPlayerControllers.Add(aiController);
             AISection.Setup(opponentIdx);
         }
@@ -97,29 +99,21 @@ public class GameManager : MonoBehaviour
         _aiPlayerMananger.Initialise(aiPlayerControllers);
     }
 
-    private PlayerController CreateAndSetupOpponent(PlayerController playerControllerPrefab, Transform playerParentTransform, int idx)
+    private PlayerController CreateAndSetupOpponent(PlayerController playerControllerPrefab,
+        Transform playerParentTransform, int idx)
     {
         var playerController = Instantiate(playerControllerPrefab, playerParentTransform, false);
-        
+
         _uniqueCharacterDataDict.TryGetValue(idx, out var visualData);
-        if (visualData == null) 
+        if (visualData == null)
             return null;
-        
+
         playerController.SetPlayerVisualData(visualData);
-       
+
         _players[idx] = visualData.CharacterPortraitSprite;
 
         return playerController;
     }
-
-    private CharacterVisualData GetUniqueVisualData(List<CharacterVisualData> characterVisualDatas)
-    {
-        var randomVisualData = characterVisualDatas[Random.Range(0, characterVisualDatas.Count)];
-        characterVisualDatas.Remove(randomVisualData);
-
-        return randomVisualData;
-    }
-
 
     private void CreateUI()
     {
@@ -136,13 +130,13 @@ public class GameManager : MonoBehaviour
     public void OnGoalColliderEventHandler(BallScoredData ballScoredData)
     {
         Ball ball = ballScoredData.ball;
-        
+
         // remove the ball from active balls list for the ai to consider immediately
         _activeBallsInScene.Remove(ball.transform);
         _aiPlayerMananger.UpdateActiveBallsForAI(_activeBallsInScene);
 
         ball.Scored();
-        
+
         _scoreboardUI.DeductPlayerScore(ballScoredData.playerIdx, ball.PointsValueForGoal);
     }
 
