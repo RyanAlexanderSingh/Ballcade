@@ -15,5 +15,6 @@ MonoBehaviour:
   _level: {fileID: 5934772386622711266, guid: f36a453d8dd3bf7468eac0a190aa151d, type: 3}
   levelScene: 0
   _numOfAIOpponents: 3
-  _numOfLives: 15
+  _numOfLives: 5
   _ballSpawnDelay: 1.5
+  _maxNumActiveBalls: 4

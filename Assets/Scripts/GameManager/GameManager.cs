@@ -129,6 +129,16 @@ public class GameManager : MonoBehaviour
     #endregion
 
 
+    #region Updates
+
+    private void UpdateActiveBalls()
+    {
+        _aiPlayerMananger.UpdateActiveBalls(_activeBallsInScene);
+        _activeLevel.UpdateActiveBalls(_activeBallsInScene.Count);
+    }
+
+    #endregion
+
     #region Listeners
 
     public void OnGoalColliderEventHandler(BallScoredData ballScoredData)
@@ -137,7 +147,7 @@ public class GameManager : MonoBehaviour
 
         // remove the ball from active balls list for the ai to consider immediately
         _activeBallsInScene.Remove(ball.transform);
-        _aiPlayerMananger.UpdateActiveBallsForAI(_activeBallsInScene);
+        UpdateActiveBalls();
 
         ball.Scored();
 
@@ -153,7 +163,7 @@ public class GameManager : MonoBehaviour
     public void OnBallSpawnedEventHandler(GameObject ballGo)
     {
         _activeBallsInScene.Add(ballGo.transform);
-        _aiPlayerMananger.UpdateActiveBallsForAI(_activeBallsInScene);
+        UpdateActiveBalls();
     }
 
     #endregion

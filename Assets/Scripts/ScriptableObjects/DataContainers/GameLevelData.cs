@@ -27,13 +27,16 @@ public class GameLevelData : ScriptableObject
     
     [Tooltip("Num of AI opponents. If it is a 4 way arena, this number should be 3")]
     [SerializeField] 
-    private int _numOfAIOpponents;
+    private int _numOfAIOpponents = 3;
     
     [SerializeField] 
-    private int _numOfLives;
+    private int _numOfLives = 10;
 
     [SerializeField] 
-    private float _ballSpawnDelay;
+    private float _ballSpawnDelay = 1.5f;
+
+    [SerializeField]
+    private int _maxNumActiveBalls = 5;
 
     public Level Level => _level;
 
@@ -42,6 +45,8 @@ public class GameLevelData : ScriptableObject
     public AdditiveLevelScene LevelScene => levelScene;
     
     public int NumberOfStartingLives => _numOfLives;
+
+    public int MaxNumActiveBalls => _maxNumActiveBalls;
 
     
     #endregion

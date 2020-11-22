@@ -23,7 +23,7 @@ public class AIPlayerMananger : MonoBehaviour
 
     #region Update
 
-    public void UpdateActiveBallsForAI(List<Transform> activeBalls)
+    public void UpdateActiveBalls(List<Transform> activeBalls)
     {
         foreach (AIPlayerController aiPlayer in _aiPlayers)
         {

@@ -14,9 +14,9 @@ public class Level : MonoBehaviour
 
     private GameLevelData _gameLevelData;
 
-    private bool isGameActive = true;
+    private bool _isGameActive;
 
-    public List<PlayerSection> PlayerSections => _playerSections;
+    private int _numActiveBalls;
 
     #endregion
 
@@ -26,6 +26,8 @@ public class Level : MonoBehaviour
     public void Setup(GameLevelData gameLevelData)
     {
         _gameLevelData = gameLevelData;
+
+        _isGameActive = true;
 
         StartCoroutine(CoSpawnBalls());
     }
@@ -56,6 +58,15 @@ public class Level : MonoBehaviour
 
     #endregion
 
+    #region Updates
+
+    public void UpdateActiveBalls(int numActiveBalls)
+    {
+        _numActiveBalls = numActiveBalls;
+    }
+
+    #endregion
+
 
     #region Coroutines
 
@@ -63,12 +74,19 @@ public class Level : MonoBehaviour
     {
         int numSpawners = _ballSpawners.Count;
 
-        while (isGameActive)
+        while (_isGameActive)
         {
-            yield return new WaitForSeconds(_gameLevelData.GetNextBallSpawnDelay());
+            // if there are too many balls, wait until one has despawned before trying to spawn a new one
+            if (_numActiveBalls < _gameLevelData.MaxNumActiveBalls)
+            {
+                // if there are less than the maximum number of balls per level then add a new ball to the level with appropriate delay
+                yield return new WaitForSeconds(_gameLevelData.GetNextBallSpawnDelay());
 
-            int randomIdx = Random.Range(0, numSpawners);
-            _ballSpawners[randomIdx].SpawnBall();
+                int randomIdx = Random.Range(0, numSpawners);
+                _ballSpawners[randomIdx].SpawnBall();
+            }
+
+            yield return null;
         }
     }
 
