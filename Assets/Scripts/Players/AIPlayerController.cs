@@ -12,7 +12,7 @@ public class AIPlayerController : PlayerController, IPlayer
     private Transform _activeTargetBall;
 
     private AIPlayerData _aiPlayerData;
-    
+
     #endregion
 
 
@@ -25,7 +25,7 @@ public class AIPlayerController : PlayerController, IPlayer
         {
             Debug.LogError("Incorrect PlayerData has been provided to this AIPlayer");
         }
-        
+
         StartCoroutine(CoSetClosestActiveBall());
     }
 
@@ -59,18 +59,21 @@ public class AIPlayerController : PlayerController, IPlayer
     {
         if (!IsPlayerAlive)
             return;
-        
+
         if (_activeTargetBall == null)
             return;
-        
-        Debug.DrawRay(transform.position, _activeTargetBall.position - transform.position, Color.green);
+
+        Vector3 currentPosition = transform.position;
+
+        Debug.DrawRay(currentPosition, _activeTargetBall.position - currentPosition, Color.green);
 
         Vector3 targetPos = GetClampedTargetPosition(_activeTargetBall.transform.position);
-        transform.position = Vector3.MoveTowards(transform.position, targetPos, Time.deltaTime * _playerData.playerSpeed);
+
+        transform.position = Vector3.MoveTowards(currentPosition, targetPos, Time.deltaTime * _playerData.playerSpeed);
     }
 
     #endregion
-    
+
 
     #region Ball Search
 
@@ -91,8 +94,8 @@ public class AIPlayerController : PlayerController, IPlayer
 //                if (angle < 40f)
 //                {
 //                    Debug.Log(angle);
-                    tMin = t;
-                    minBallDist = dist;
+                tMin = t;
+                minBallDist = dist;
 //                }
             }
         }

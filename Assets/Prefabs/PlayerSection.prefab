@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6740285043613844229}
   - component: {fileID: 1842041999435972677}
   - component: {fileID: 2674978957935124611}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: GoalCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}

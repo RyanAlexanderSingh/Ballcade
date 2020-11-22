@@ -15,10 +15,13 @@ public class UserPlayerController : PlayerController, IPlayer
     {
         float h = Input.GetAxisRaw ("Horizontal");
 
-        if (h == 0f) 
+        Vector3 dir = transform.right * h;
+        int dirXNorm = (int)dir.normalized.x;
+        SetAnimBasedOnMovementDir(dir.normalized.x);
+        
+        if (dirXNorm == 0)
             return;
         
-        Vector3 dir = transform.right * h;
         transform.Translate(dir * Time.deltaTime * _playerData.playerSpeed, Space.World);
 
         transform.position = GetClampedTargetPosition(transform.position);
