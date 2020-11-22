@@ -2,7 +2,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "GameEvent", menuName = "Ballcade/Game Event")]
-public abstract class BaseGameEvent<T>: ScriptableObject
+public abstract class BaseGameEvent<T> : ScriptableObject
 {
     private readonly List<IGameEventListener<T>> _listeners = new List<IGameEventListener<T>>();
 

@@ -25,5 +25,4 @@ public class UserPlayerController : PlayerController, IPlayer
     }
 
     #endregion
-    
 }

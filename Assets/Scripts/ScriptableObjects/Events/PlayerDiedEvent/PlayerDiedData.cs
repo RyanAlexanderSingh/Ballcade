@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public struct BallScoredData
+public struct PlayerDiedData
 {
-    public Ball ball;
-    public int playerGoalIdx;
+    public PlayerController playerController;
 }

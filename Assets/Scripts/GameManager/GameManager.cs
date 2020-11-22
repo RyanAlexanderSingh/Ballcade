@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -38,11 +39,11 @@ public class GameManager : MonoBehaviour
 
     private ScoreboardUI _scoreboardUI;
 
-    private Dictionary<int, Sprite> _players = new Dictionary<int, Sprite>();
+    private Dictionary<int, CharacterVisualData> _uniqueCharacterDataDict = new Dictionary<int, CharacterVisualData>();
 
     private Level _activeLevel;
 
-    private Dictionary<int, CharacterVisualData> _uniqueCharacterDataDict = new Dictionary<int, CharacterVisualData>();
+    private List<PlayerController> _playerControllers = new List<PlayerController>();
 
     #endregion
 
@@ -69,18 +70,23 @@ public class GameManager : MonoBehaviour
     private void CreateOpponents()
     {
         // assign random idx values to a dictionary so each player has a different skin
-        List<CharacterVisualData> _randomCharacterVisualDatas = _characterVisualDatas;
-        _randomCharacterVisualDatas.Shuffle();
+        List<CharacterVisualData> randomCharacterVisualDatas = _characterVisualDatas;
+        randomCharacterVisualDatas.Shuffle();
 
-        for (int i = 0; i < _randomCharacterVisualDatas.Count; i++)
+        for (int i = 0; i < randomCharacterVisualDatas.Count; i++)
         {
-            _uniqueCharacterDataDict[i] = _randomCharacterVisualDatas[i];
+            _uniqueCharacterDataDict[i] = randomCharacterVisualDatas[i];
         }
 
         int opponentIdx = 0;
         // create the player first
-        CreateAndSetupOpponent(_playerControllerPrefab, _activeLevel.UserPlayerSection.StartingPosition, opponentIdx);
-        _activeLevel.UserPlayerSection.Setup(opponentIdx);
+        var playerSection = _activeLevel.GetPlayerSection();
+
+        var playerController =
+            CreateAndSetupOpponent(_playerControllerPrefab, playerSection.StartingPosition, opponentIdx);
+        _playerControllers.Add(playerController);
+
+        playerSection.Setup(opponentIdx);
 
         List<AIPlayerController> aiPlayerControllers = new List<AIPlayerController>();
         for (int i = 0; i < _defaultGameLevelData.NumOfAIOpponents; i++)
@@ -88,18 +94,19 @@ public class GameManager : MonoBehaviour
             // increment opponent idx first as player is default 0
             ++opponentIdx;
 
-            var AISection = _activeLevel.AISections[i];
-            var aiController =
-                CreateAndSetupOpponent(_aiControllerPrefab, AISection.StartingPosition, opponentIdx) as
-                    AIPlayerController;
+            var aiSection = _activeLevel.GetFreePlayerSection();
+            var aiController = CreateAndSetupOpponent(_aiControllerPrefab, aiSection.StartingPosition, opponentIdx) as AIPlayerController;
             aiPlayerControllers.Add(aiController);
-            AISection.Setup(opponentIdx);
+            aiSection.Setup(opponentIdx);
         }
+
+        _playerControllers.AddRange(aiPlayerControllers);
 
         _aiPlayerMananger.Initialise(aiPlayerControllers);
     }
 
-    private PlayerController CreateAndSetupOpponent(PlayerController playerControllerPrefab, Transform playerParentTransform, int idx)
+    private PlayerController CreateAndSetupOpponent(PlayerController playerControllerPrefab,
+        Transform playerParentTransform, int idx)
     {
         var playerController = Instantiate(playerControllerPrefab, playerParentTransform, false);
 
@@ -107,9 +114,7 @@ public class GameManager : MonoBehaviour
         if (visualData == null)
             return null;
 
-        playerController.SetPlayerVisualData(visualData);
-
-        _players[idx] = visualData.CharacterPortraitSprite;
+        playerController.SetPlayerData(visualData, _defaultGameLevelData.NumberOfStartingLives, idx);
 
         return playerController;
     }
@@ -118,7 +123,7 @@ public class GameManager : MonoBehaviour
     {
         _scoreboardUI = Instantiate(_scoreboardUIPrefab, _canvas.transform);
 
-        _scoreboardUI.SetupScoreboard(_players, _defaultGameLevelData.NumberOfStartingLives);
+        _scoreboardUI.SetupScoreboard(_playerControllers);
     }
 
     #endregion
@@ -136,7 +141,13 @@ public class GameManager : MonoBehaviour
 
         ball.Scored();
 
-        _scoreboardUI.DeductPlayerScore(ballScoredData.playerIdx, ball.PointsValueForGoal);
+        // update player lives left for both player controller & ui elements
+        var goalOwner = _playerControllers.FirstOrDefault(x => x.PlayerIdx == ballScoredData.playerGoalIdx);
+        if (goalOwner != null)
+        {
+            goalOwner.ReducePlayerLives(ball.PointsValueForGoal);
+            _scoreboardUI.SetPlayerLives(ballScoredData.playerGoalIdx, goalOwner.CurrentLives);
+        }
     }
 
     public void OnBallSpawnedEventHandler(GameObject ballGo)

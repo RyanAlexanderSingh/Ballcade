@@ -21,15 +21,15 @@ public class ScoreboardUI : MonoBehaviour
 
     #region Initialise
 
-    public void SetupScoreboard(Dictionary<int, Sprite> players, int startingScore)
+    public void SetupScoreboard(List<PlayerController> players)
     {
         foreach (var player in players)
         {
-            int playerKey = player.Key;
+            int playerKey = player.PlayerIdx;
             //will probably contain this better but just here for now
             Transform parent = (playerKey == 0 || playerKey == 1) ? _leftContainer : _rightContainer;
             var playerUI = Instantiate(_playerUIPrefab, parent);
-            playerUI.Setup(playerKey, startingScore, player.Value);
+            playerUI.Setup(playerKey, player.CurrentLives, player.VisualData.CharacterPortraitSprite);
 
             _playerUIs.Add(playerUI);
         }
@@ -39,14 +39,14 @@ public class ScoreboardUI : MonoBehaviour
 
     #region Update
 
-    public void DeductPlayerScore(int playerID, int deduction)
+    public void SetPlayerLives(int playerID, int currentLives)
     {
         foreach (var playerUI in _playerUIs)
         {
             if (playerUI.PlayerId != playerID) 
                 continue;
             
-            playerUI.GoalScoredAgainstPlayer(deduction);
+            playerUI.SetPlayerLives(currentLives);
             break;
         }
     }

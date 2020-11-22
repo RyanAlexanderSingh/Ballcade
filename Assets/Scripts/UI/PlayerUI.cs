@@ -19,8 +19,6 @@ public class PlayerUI : MonoBehaviour
     private DOTweenAnimation _goalConceededAnimation;
 
 
-    private int _currentScore;
-
     public int PlayerId { get; private set; }
 
     #endregion
@@ -30,8 +28,8 @@ public class PlayerUI : MonoBehaviour
     public void Setup(int playerId, int startingScore, Sprite playerSprite)
     {
         PlayerId = playerId;
-        _currentScore = startingScore;
-        SetPlayerScoreText(_currentScore);
+
+        SetPlayerScoreText(startingScore);
         _playerImage.sprite = playerSprite;
     }
 
@@ -45,10 +43,9 @@ public class PlayerUI : MonoBehaviour
         _playerScore.text = score.ToString();
     }
 
-    public void GoalScoredAgainstPlayer(int scoreReduction)
+    public void SetPlayerLives(int currentLives)
     {
-        _currentScore -= scoreReduction;
-        SetPlayerScoreText(_currentScore);
+        SetPlayerScoreText(currentLives);
 
         _goalConceededAnimation.DORestart();
     }

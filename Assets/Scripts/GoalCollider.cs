@@ -36,7 +36,7 @@ public class GoalCollider : MonoBehaviour
         
         BallScoredData goalScoredData = new BallScoredData
         {
-            ball = ball, playerIdx = _goalOwnerPlayerIdx
+            ball = ball, playerGoalIdx = _goalOwnerPlayerIdx
         };
         onGoalBaseScoredEvent.Raise(goalScoredData);
     }

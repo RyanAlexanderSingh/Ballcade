@@ -1,10 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 [System.Serializable]
-public struct BallScoredData
-{
-    public Ball ball;
-    public int playerGoalIdx;
-}
+public class UnityPlayerDiedEvent : UnityEvent<PlayerDiedData> { }

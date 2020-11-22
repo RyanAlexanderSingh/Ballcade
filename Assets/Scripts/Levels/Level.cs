@@ -7,10 +7,7 @@ public class Level : MonoBehaviour
     #region Vars
 
     [SerializeField]
-    private PlayerSection _userPlayerSection;
-
-    [SerializeField]
-    private List<PlayerSection> _aiSections = new List<PlayerSection>();
+    private List<PlayerSection> _playerSections = new List<PlayerSection>();
 
     [SerializeField]
     private List<BallSpawner> _ballSpawners = new List<BallSpawner>();
@@ -19,9 +16,7 @@ public class Level : MonoBehaviour
 
     private bool isGameActive = true;
 
-    public PlayerSection UserPlayerSection => _userPlayerSection;
-
-    public List<PlayerSection> AISections => _aiSections;
+    public List<PlayerSection> PlayerSections => _playerSections;
 
     #endregion
 
@@ -33,6 +28,30 @@ public class Level : MonoBehaviour
         _gameLevelData = gameLevelData;
 
         StartCoroutine(CoSpawnBalls());
+    }
+
+    public PlayerSection GetFreePlayerSection()
+    {
+        foreach (var section in _playerSections)
+        {
+            if (!section.IsSectionOccupied)
+                return section;
+        }
+
+        Debug.LogError("Cannot find a free player section");
+        return null;
+    }
+
+    public PlayerSection GetPlayerSection()
+    {
+        foreach (var section in _playerSections)
+        {
+            if (section.IsPlayerSection)
+                return section;
+        }
+
+        Debug.LogError("Cannot find a player section in level player sections, set one in the inspector.");
+        return null;
     }
 
     #endregion

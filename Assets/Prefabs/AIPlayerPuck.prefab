@@ -15,6 +15,7 @@ MonoBehaviour:
   _playerData: {fileID: 11400000, guid: 2e1ba440a9c42b245a23307442d904e8, type: 2}
   _puckMeshRenderer: {fileID: 875177437211977356}
   _characterMeshRenderer: {fileID: 2009035316823713994}
+  _playerDiedEvent: {fileID: 11400000, guid: e555eed68de368b48b3c947d1acef512, type: 2}
 --- !u!1001 &5770146296882804258
 PrefabInstance:
   m_ObjectHideFlags: 0

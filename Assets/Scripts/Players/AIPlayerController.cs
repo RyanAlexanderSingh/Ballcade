@@ -42,7 +42,7 @@ public class AIPlayerController : PlayerController, IPlayer
 
     IEnumerator CoSetClosestActiveBall()
     {
-        while (true)
+        while (IsPlayerAlive)
         {
             if (_activeBalls.Any())
             {
@@ -57,14 +57,16 @@ public class AIPlayerController : PlayerController, IPlayer
 
     public void UpdateMovement()
     {
+        if (!IsPlayerAlive)
+            return;
+        
         if (_activeTargetBall == null)
             return;
         
         Debug.DrawRay(transform.position, _activeTargetBall.position - transform.position, Color.green);
 
         Vector3 targetPos = GetClampedTargetPosition(_activeTargetBall.transform.position);
-        transform.position =
-            Vector3.MoveTowards(transform.position, targetPos, Time.deltaTime * _playerData.playerSpeed);
+        transform.position = Vector3.MoveTowards(transform.position, targetPos, Time.deltaTime * _playerData.playerSpeed);
     }
 
     #endregion
