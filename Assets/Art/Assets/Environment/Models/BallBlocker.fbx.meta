@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 4569319308d43de4c805a5244fe11dba
+guid: de92564a47759c54d92b2d7affb027bd
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
@@ -7,18 +7,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: BallCadeEnvironment_01
-    second: {fileID: 2100000, guid: 5b15945107aa7a944917c85352b2abda, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
       name: BallGateBlocker
     second: {fileID: 2100000, guid: 9d1e137d7264842428576d2da9bb8f2f, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: EnvironmentFloor01
-    second: {fileID: 2100000, guid: 410e3e925f402024080d2c2a1c76bb69, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
