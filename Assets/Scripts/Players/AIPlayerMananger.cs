@@ -4,16 +4,28 @@ using UnityEngine;
 
 public class AIPlayerMananger : MonoBehaviour
 {
-    public List<AIPlayer> _aiPlayers = new List<AIPlayer>();
+    #region Vars
 
-    public void Initialise()
+    private List<AIPlayerController> _aiPlayers = new List<AIPlayerController>();
+
+    #endregion
+    
+
+    #region Initialise
+
+    public void Initialise(List<AIPlayerController> aiPlayers)
     {
-        
+        _aiPlayers = aiPlayers;
     }
 
-    public void UpdateActiveBallsForAI(List<Transform> activeBalls)
+    #endregion
+    
+
+    #region Update
+
+    public void UpdateActiveBalls(List<Transform> activeBalls)
     {
-        foreach (AIPlayer aiPlayer in _aiPlayers)
+        foreach (AIPlayerController aiPlayer in _aiPlayers)
         {
             aiPlayer.UpdateActiveBallsList(activeBalls);
         }
@@ -21,9 +33,12 @@ public class AIPlayerMananger : MonoBehaviour
 
     public void Update()
     {
-        foreach (AIPlayer aiPlayer in _aiPlayers)
+        foreach (AIPlayerController aiPlayer in _aiPlayers)
         {
             aiPlayer.ManualUpdate();
         }
     }
+
+    #endregion
+
 }

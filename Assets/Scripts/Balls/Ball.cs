@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Ball : MonoBehaviour, IPooledObject
@@ -15,24 +14,25 @@ public class Ball : MonoBehaviour, IPooledObject
 
     [SerializeField] private Rigidbody _rigidbody;
     [SerializeField] private TrailRenderer _trailRenderer;
+    
+    public int PointsValueForGoal => _ballData.PointsValueForGoal;
 
     #endregion
-    
-    void FixedUpdate()
+
+    private void FixedUpdate()
     {
         EnsureVelocityMinimum();
     }
 
     private void EnsureVelocityMinimum()
     {
-        if (_rigidbody.velocity.magnitude < 5f)
-        {
-            Debug.Log("speed too slow, speeding it up");
-            Vector2 v = _rigidbody.velocity;
-            v = v.normalized;
-            v *= 10f;
-            _rigidbody.velocity = v;
-        }
+        if (_rigidbody.velocity.magnitude >= _ballData.MinimumVelocity)
+            return;
+        
+        Vector2 v = _rigidbody.velocity;
+        v = v.normalized;
+        v *= _ballData.MinimumVelocity;
+        _rigidbody.velocity = v;
     }
 
     public void OnObjectSpawned()
@@ -45,10 +45,24 @@ public class Ball : MonoBehaviour, IPooledObject
         _rigidbody.AddForce(_ballData.GetInitialSpawnForce(transform), ForceMode.Impulse);
     }
 
-    public void Deactivate()
+    private void Deactivate()
     {
         StopPhysics();
         _trailRenderer.Clear();
+    }
+
+    public void Scored()
+    {
+        StartCoroutine(CoHandleScoredBallObj());
+    }
+    
+    private IEnumerator CoHandleScoredBallObj()
+    {
+        yield return new WaitForSeconds(_ballData.DespawnDelayAfterGoal);
+        
+        Deactivate();
+
+        ObjectPoolManager.instance.ReturnToPool(gameObject);
     }
 
     private void StopPhysics()

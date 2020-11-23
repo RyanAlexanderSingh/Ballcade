@@ -7,19 +7,18 @@ public class GoalCollider : MonoBehaviour
 {
     #region Vars
 
-    [SerializeField] private BoxCollider _collider;
+    [SerializeField] private BallScoredEvent onGoalBaseScoredEvent;
 
-    #endregion
-
-
-    #region Events
-
-    public event Action<GameObject> OnCollisionEnterEvent;
+    private int _goalOwnerPlayerIdx;
 
     #endregion
 
     #region Initialise
 
+    public void Setup(int goalOwnerPlayerIdx)
+    {
+        _goalOwnerPlayerIdx = goalOwnerPlayerIdx;
+    }
 
     #endregion
 
@@ -28,7 +27,18 @@ public class GoalCollider : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        OnCollisionEnterEvent?.Invoke(other.gameObject);
+        Ball ball = other.GetComponent<Ball>();
+        if (ball == null)
+        {
+            Debug.LogError($"Something other than a ball collided with the goal collider: {other}");
+            return;
+        }
+        
+        BallScoredData goalScoredData = new BallScoredData
+        {
+            ball = ball, playerGoalIdx = _goalOwnerPlayerIdx
+        };
+        onGoalBaseScoredEvent.Raise(goalScoredData);
     }
 
     #endregion

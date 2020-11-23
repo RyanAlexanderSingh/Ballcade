@@ -1,20 +1,49 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
     #region Vars
 
-    [SerializeField] private List<BallSpawner> _ballSpawners = new List<BallSpawner>();
-    [SerializeField] private List<GoalCollider> _goalColliders = new List<GoalCollider>();
-    [SerializeField] private float _spawnDelay;
-    [SerializeField] private float _ballReturnToPoolDelay = 2f;
-    [SerializeField] private AIPlayerMananger _aiPlayerMananger;
+    // This will come in dynamically but with only one, I'm just assigning it for now
+    [SerializeField]
+    private GameLevelData _defaultGameLevelData;
+
+    // This will come in another way but testing level data
+    [SerializeField]
+    private List<CharacterVisualData> _characterVisualDatas = new List<CharacterVisualData>();
+
+    [SerializeField]
+    private AIPlayerMananger _aiPlayerMananger;
+
+    [Header("UI")]
+    [SerializeField]
+    private Canvas _canvas;
+
+    [SerializeField]
+    private ScoreboardUI _scoreboardUIPrefab;
+
+    [SerializeField]
+    private PlayerController _playerControllerPrefab;
+
+    [SerializeField]
+    private PlayerController _aiControllerPrefab;
 
     private List<Transform> _activeBallsInScene = new List<Transform>();
+
+    private ScoreboardUI _scoreboardUI;
+
+    private Dictionary<int, CharacterVisualData> _uniqueCharacterDataDict = new Dictionary<int, CharacterVisualData>();
+
+    private Level _activeLevel;
+
+    private List<PlayerController> _playerControllers = new List<PlayerController>();
 
     #endregion
 
@@ -23,119 +52,118 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(CoSpawnBalls());
-        AddListeners();
+        CreateLevelAndPlayers();
+
+        CreateUI();
     }
 
-    #endregion
-
-
-    #region Coroutines
-
-    private IEnumerator CoSpawnBalls()
+    private void CreateLevelAndPlayers()
     {
-        int numSpawners = _ballSpawners.Count;
+        SceneManager.LoadScene(_defaultGameLevelData.LevelScene.ToString(), LoadSceneMode.Additive);
 
-        while (true)
+        _activeLevel = Instantiate(_defaultGameLevelData.Level, transform);
+        _activeLevel.Setup(_defaultGameLevelData);
+
+        CreateOpponents();
+    }
+
+    private void CreateOpponents()
+    {
+        // assign random idx values to a dictionary so each player has a different skin
+        List<CharacterVisualData> randomCharacterVisualDatas = _characterVisualDatas;
+        randomCharacterVisualDatas.Shuffle();
+
+        for (int i = 0; i < randomCharacterVisualDatas.Count; i++)
         {
-            yield return new WaitForSeconds(_spawnDelay);
-
-            int randomIdx = Random.Range(0, numSpawners);
-            _ballSpawners[randomIdx].SpawnBall();
+            _uniqueCharacterDataDict[i] = randomCharacterVisualDatas[i];
         }
+
+        int opponentIdx = 0;
+        // create the player first
+        var playerSection = _activeLevel.GetPlayerSection();
+
+        var playerController =
+            CreateAndSetupOpponent(_playerControllerPrefab, playerSection.StartingPosition, opponentIdx);
+        _playerControllers.Add(playerController);
+
+        playerSection.Setup(opponentIdx);
+
+        List<AIPlayerController> aiPlayerControllers = new List<AIPlayerController>();
+        for (int i = 0; i < _defaultGameLevelData.NumOfAIOpponents; i++)
+        {
+            // increment opponent idx first as player is default 0
+            ++opponentIdx;
+
+            var aiSection = _activeLevel.GetFreePlayerSection();
+            var aiController = CreateAndSetupOpponent(_aiControllerPrefab, aiSection.StartingPosition, opponentIdx) as AIPlayerController;
+            aiPlayerControllers.Add(aiController);
+            aiSection.Setup(opponentIdx);
+        }
+
+        _playerControllers.AddRange(aiPlayerControllers);
+
+        _aiPlayerMananger.Initialise(aiPlayerControllers);
     }
 
-    private IEnumerator CoHandleScoredBallObj(Ball scoredBall)
+    private PlayerController CreateAndSetupOpponent(PlayerController playerControllerPrefab,
+        Transform playerParentTransform, int idx)
     {
-        // remove the ball from active balls list immediately
-        _activeBallsInScene.Remove(scoredBall.transform);
-        _aiPlayerMananger.UpdateActiveBallsForAI(_activeBallsInScene);
+        var playerController = Instantiate(playerControllerPrefab, playerParentTransform, false);
 
-        yield return new WaitForSeconds(_ballReturnToPoolDelay);
+        _uniqueCharacterDataDict.TryGetValue(idx, out var visualData);
+        if (visualData == null)
+            return null;
 
-        scoredBall.Deactivate();
+        playerController.SetPlayerData(visualData, _defaultGameLevelData.NumberOfStartingLives, idx);
 
-        ObjectPoolManager.instance.ReturnToPool(scoredBall.gameObject);
+        return playerController;
+    }
+
+    private void CreateUI()
+    {
+        _scoreboardUI = Instantiate(_scoreboardUIPrefab, _canvas.transform);
+
+        _scoreboardUI.SetupScoreboard(_playerControllers);
     }
 
     #endregion
 
+
+    #region Updates
+
+    private void UpdateActiveBalls()
+    {
+        _aiPlayerMananger.UpdateActiveBalls(_activeBallsInScene);
+        _activeLevel.UpdateActiveBalls(_activeBallsInScene.Count);
+    }
+
+    #endregion
 
     #region Listeners
 
-    private void OnGoalColliderEventHandler(GameObject collisionObj)
+    public void OnGoalColliderEventHandler(BallScoredData ballScoredData)
     {
-        Ball ball = collisionObj.GetComponent<Ball>();
+        Ball ball = ballScoredData.ball;
 
-        if (ball == null)
-            return;
+        // remove the ball from active balls list for the ai to consider immediately
+        _activeBallsInScene.Remove(ball.transform);
+        UpdateActiveBalls();
 
-        StartCoroutine(CoHandleScoredBallObj(ball));
-    }
+        ball.Scored();
 
-    private void OnBallSpawnedEventHandler(Transform ballTransform)
-    {
-        _activeBallsInScene.Add(ballTransform.transform);
-        _aiPlayerMananger.UpdateActiveBallsForAI(_activeBallsInScene);
-    }
-
-    #endregion
-
-
-    #region Events
-
-    private void AddListeners()
-    {
-        AddGoalColliderListeners();
-        AddBallSpawnerListeners();
-    }
-
-    private void RemoveListeners()
-    {
-        RemoveGoalColliderListeners();
-        RemoveBallSpawnerListener();
-    }
-
-    private void AddGoalColliderListeners()
-    {
-        foreach (var goalCollider in _goalColliders)
+        // update player lives left for both player controller & ui elements
+        var goalOwner = _playerControllers.FirstOrDefault(x => x.PlayerIdx == ballScoredData.playerGoalIdx);
+        if (goalOwner != null)
         {
-            goalCollider.OnCollisionEnterEvent += OnGoalColliderEventHandler;
+            goalOwner.ReducePlayerLives(ball.PointsValueForGoal);
+            _scoreboardUI.SetPlayerLives(ballScoredData.playerGoalIdx, goalOwner.CurrentLives);
         }
     }
 
-    private void RemoveGoalColliderListeners()
+    public void OnBallSpawnedEventHandler(GameObject ballGo)
     {
-        foreach (var goalCollider in _goalColliders)
-        {
-            goalCollider.OnCollisionEnterEvent -= OnGoalColliderEventHandler;
-        }
-    }
-
-    private void AddBallSpawnerListeners()
-    {
-        foreach (var ballSpawner in _ballSpawners)
-        {
-            ballSpawner.OnBallSpawnedEvent += OnBallSpawnedEventHandler;
-        }
-    }
-
-    private void RemoveBallSpawnerListener()
-    {
-        foreach (var ballSpawner in _ballSpawners)
-        {
-            ballSpawner.OnBallSpawnedEvent -= OnBallSpawnedEventHandler;
-        }
-    }
-
-    #endregion
-
-
-    #region Destroy
-
-    private void OnDestroy()
-    {
-        RemoveListeners();
+        _activeBallsInScene.Add(ballGo.transform);
+        UpdateActiveBalls();
     }
 
     #endregion

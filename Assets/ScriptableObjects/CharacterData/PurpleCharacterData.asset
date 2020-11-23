@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c624452e4442984e9566847f79f83ee, type: 3}
+  m_Name: PurpleCharacterData
+  m_EditorClassIdentifier: 
+  _modelMaterial: {fileID: 2100000, guid: c62d9361c658cff468a9dbfcd96b4108, type: 2}
+  _puckMaterial: {fileID: 2100000, guid: 876f9a175c1485944b9d5c7ea44a2158, type: 2}
+  characterPortraitSprite: {fileID: 21300000, guid: c349ac9b7f0d2614e9e2d6a9dfefe84d,
+    type: 3}

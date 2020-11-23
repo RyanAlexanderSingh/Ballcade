@@ -25,7 +25,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6155690425735014749}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.7053404, y: -6.1824813, z: -1.9671934}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -58,3 +58,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _collider: {fileID: 2699230241428368872}
+  OnGoalScoredEvent: {fileID: 11400000, guid: 30681eb41bef321449bb238578de3d45, type: 2}

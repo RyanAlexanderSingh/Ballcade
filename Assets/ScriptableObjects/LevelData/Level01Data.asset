@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1d857af9f1986348a81fe9065c968ea, type: 3}
+  m_Name: Level01Data
+  m_EditorClassIdentifier: 
+  _level: {fileID: 5934772386622711266, guid: f36a453d8dd3bf7468eac0a190aa151d, type: 3}
+  levelScene: 0
+  _numOfAIOpponents: 3
+  _numOfLives: 5
+  _ballSpawnDelay: 1.5
+  _maxNumActiveBalls: 4

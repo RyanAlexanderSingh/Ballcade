@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c624452e4442984e9566847f79f83ee, type: 3}
+  m_Name: GreenCharacterData
+  m_EditorClassIdentifier: 
+  _modelMaterial: {fileID: 2100000, guid: 93fe9723b3cc03d459d71797e9ebeff5, type: 2}
+  _puckMaterial: {fileID: 2100000, guid: 8d47ce9471db53d4e9f4864574db1bca, type: 2}
+  characterPortraitSprite: {fileID: 21300000, guid: 613658c9c34bb454f8e18288b3927681,
+    type: 3}
