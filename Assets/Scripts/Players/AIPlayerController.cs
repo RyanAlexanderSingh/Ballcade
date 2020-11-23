@@ -7,7 +7,7 @@ public class AIPlayerController : PlayerController, IPlayer
 {
     #region Vars
 
-    private List<Transform> _activeBalls = new List<Transform>();
+    private List<Ball> _activeBalls = new List<Ball>();
 
     private Transform _activeTargetBall;
 
@@ -30,7 +30,7 @@ public class AIPlayerController : PlayerController, IPlayer
     }
 
 
-    public void UpdateActiveBallsList(List<Transform> activeBalls)
+    public void UpdateActiveBallsList(List<Ball> activeBalls)
     {
         _activeBalls = activeBalls;
     }
@@ -77,15 +77,16 @@ public class AIPlayerController : PlayerController, IPlayer
 
     #region Ball Search
 
-    Transform GetClosestBallTransform(List<Transform> balls)
+    Transform GetClosestBallTransform(List<Ball> balls)
     {
         Transform tMin = null;
         float minBallDist = Mathf.Infinity;
         float maxDistToLook = 10f;
         Vector3 currentPos = transform.position;
 
-        foreach (Transform t in balls)
+        foreach (var ball in balls)
         {
+            Transform t = ball.transform;
             float dist = Vector3.Distance(t.position, currentPos);
             if (dist < minBallDist && dist < maxDistToLook)
             {

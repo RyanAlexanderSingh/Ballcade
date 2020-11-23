@@ -12,11 +12,18 @@ public class Level : MonoBehaviour
     [SerializeField]
     private List<BallSpawner> _ballSpawners = new List<BallSpawner>();
 
+    [SerializeField]
+    private Transform _winnerPositionAnchor;
+
     private GameLevelData _gameLevelData;
 
     private bool _isGameActive;
 
     private int _numActiveBalls;
+
+    private Coroutine _coBallSpawning;
+
+    public Transform WinnerPositionAnchor => _winnerPositionAnchor;
 
     #endregion
 
@@ -29,7 +36,7 @@ public class Level : MonoBehaviour
 
         _isGameActive = true;
 
-        StartCoroutine(CoSpawnBalls());
+        _coBallSpawning = StartCoroutine(CoSpawnBalls());
     }
 
     public PlayerSection GetFreePlayerSection()
@@ -54,6 +61,16 @@ public class Level : MonoBehaviour
 
         Debug.LogError("Cannot find a player section in level player sections, set one in the inspector.");
         return null;
+    }
+
+    #endregion
+
+    #region State
+
+    public void FinishGame()
+    {
+        _isGameActive = false;
+        StopCoroutine(_coBallSpawning);
     }
 
     #endregion

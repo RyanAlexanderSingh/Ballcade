@@ -16,18 +16,27 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private PlayerDiedEvent _playerDiedEvent;
 
-
     private static readonly int MovementDirAnimParameter = Animator.StringToHash("MovementDir");
-
-    #endregion
 
     public int PlayerIdx { get; private set; }
 
-    protected bool IsPlayerAlive => CurrentLives > 0;
+    public bool IsPlayerAlive => CurrentLives > 0;
 
     public int CurrentLives { get; private set; }
 
     public CharacterVisualData VisualData { get; private set; }
+    
+    public bool CanMove { get; private set; }
+
+    #endregion
+
+
+    #region Initialise
+
+    private void Awake()
+    {
+        CanMove = true;
+    }
 
     public void SetPlayerData(CharacterVisualData characterVisualData, int startingLives, int playerIdx)
     {
@@ -37,6 +46,11 @@ public class PlayerController : MonoBehaviour
         VisualData = characterVisualData;
         _playerModel.SetVisualdData(VisualData);
     }
+
+    #endregion
+
+
+    #region Helpers
 
     protected Vector3 GetClampedTargetPosition(Vector3 targetPosition)
     {
@@ -56,6 +70,10 @@ public class PlayerController : MonoBehaviour
 
         return clampedPos;
     }
+
+    #endregion
+
+    #region Player State
 
     public void ReducePlayerLives(int reduction)
     {
@@ -80,6 +98,16 @@ public class PlayerController : MonoBehaviour
         };
         _playerDiedEvent.Raise(playerDiedData);
     }
+
+    public void PlayerWon()
+    {
+        CanMove = false;
+
+        SetAnimBasedOnMovementDir(0);
+    }
+
+    #endregion
+
 
     #region Animations
 

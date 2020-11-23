@@ -59,7 +59,12 @@ public class Ball : MonoBehaviour, IPooledObject
     private IEnumerator CoHandleScoredBallObj()
     {
         yield return new WaitForSeconds(_ballData.DespawnDelayAfterGoal);
-        
+
+        ReturnBallToPool();
+    }
+
+    public void ReturnBallToPool()
+    {
         Deactivate();
 
         ObjectPoolManager.instance.ReturnToPool(gameObject);

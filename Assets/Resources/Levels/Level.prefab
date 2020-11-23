@@ -58,6 +58,7 @@ MonoBehaviour:
   - {fileID: 5934772386233459605}
   - {fileID: 6098343736575507810}
   - {fileID: 6098343734925251317}
+  _winnerPositionAnchor: {fileID: 0}
 --- !u!1 &5934772387462422867
 GameObject:
   m_ObjectHideFlags: 0

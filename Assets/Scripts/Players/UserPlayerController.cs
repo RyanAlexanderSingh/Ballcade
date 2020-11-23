@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class UserPlayerController : PlayerController, IPlayer
 {
+
     #region Updates
 
     void Update()
@@ -13,6 +14,9 @@ public class UserPlayerController : PlayerController, IPlayer
 
     public void UpdateMovement()
     {
+        if (!CanMove)
+            return;
+        
         float h = Input.GetAxisRaw ("Horizontal");
 
         Vector3 dir = transform.right * h;

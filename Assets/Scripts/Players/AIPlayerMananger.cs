@@ -8,6 +8,8 @@ public class AIPlayerMananger : MonoBehaviour
 
     private List<AIPlayerController> _aiPlayers = new List<AIPlayerController>();
 
+    private bool _shouldUpdate;
+
     #endregion
     
 
@@ -16,6 +18,17 @@ public class AIPlayerMananger : MonoBehaviour
     public void Initialise(List<AIPlayerController> aiPlayers)
     {
         _aiPlayers = aiPlayers;
+
+        SetUpdateState(true);
+    }
+
+    #endregion
+
+    #region State
+
+    public void SetUpdateState(bool shouldUpdate)
+    {
+        _shouldUpdate = shouldUpdate;
     }
 
     #endregion
@@ -23,19 +36,22 @@ public class AIPlayerMananger : MonoBehaviour
 
     #region Update
 
-    public void UpdateActiveBalls(List<Transform> activeBalls)
+    public void Update()
+    {
+        if (!_shouldUpdate)
+            return;
+        
+        foreach (AIPlayerController aiPlayer in _aiPlayers)
+        {
+            aiPlayer.ManualUpdate();
+        }
+    }
+    
+    public void UpdateActiveBalls(List<Ball> activeBalls)
     {
         foreach (AIPlayerController aiPlayer in _aiPlayers)
         {
             aiPlayer.UpdateActiveBallsList(activeBalls);
-        }
-    }
-
-    public void Update()
-    {
-        foreach (AIPlayerController aiPlayer in _aiPlayers)
-        {
-            aiPlayer.ManualUpdate();
         }
     }
 

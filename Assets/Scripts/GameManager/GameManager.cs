@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
+using DG.Tweening.Core;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -35,7 +37,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private PlayerController _aiControllerPrefab;
 
-    private List<Transform> _activeBallsInScene = new List<Transform>();
+    private List<Ball> _activeBallsInScene = new List<Ball>();
 
     private ScoreboardUI _scoreboardUI;
 
@@ -52,14 +54,21 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        CreateLevelAndPlayers();
-
-        CreateUI();
+        StartGame(true);
     }
 
-    private void CreateLevelAndPlayers()
+    private void StartGame(bool loadScene)
     {
-        SceneManager.LoadScene(_defaultGameLevelData.LevelScene.ToString(), LoadSceneMode.Additive);
+        CreateLevelAndPlayers(loadScene);
+        LoadUI();
+    }
+
+    private void CreateLevelAndPlayers(bool loadScene)
+    {
+        if (loadScene)
+        {
+            SceneManager.LoadScene(_defaultGameLevelData.LevelScene.ToString(), LoadSceneMode.Additive);
+        }
 
         _activeLevel = Instantiate(_defaultGameLevelData.Level, transform);
         _activeLevel.Setup(_defaultGameLevelData);
@@ -95,7 +104,9 @@ public class GameManager : MonoBehaviour
             ++opponentIdx;
 
             var aiSection = _activeLevel.GetFreePlayerSection();
-            var aiController = CreateAndSetupOpponent(_aiControllerPrefab, aiSection.StartingPosition, opponentIdx) as AIPlayerController;
+            var aiController =
+                CreateAndSetupOpponent(_aiControllerPrefab, aiSection.StartingPosition, opponentIdx) as
+                    AIPlayerController;
             aiPlayerControllers.Add(aiController);
             aiSection.Setup(opponentIdx);
         }
@@ -119,9 +130,10 @@ public class GameManager : MonoBehaviour
         return playerController;
     }
 
-    private void CreateUI()
+    private void LoadUI()
     {
-        _scoreboardUI = Instantiate(_scoreboardUIPrefab, _canvas.transform);
+        if (_scoreboardUI == null)
+            _scoreboardUI = Instantiate(_scoreboardUIPrefab, _canvas.transform);
 
         _scoreboardUI.SetupScoreboard(_playerControllers);
     }
@@ -139,6 +151,60 @@ public class GameManager : MonoBehaviour
 
     #endregion
 
+    #region Game End
+
+    private void FinishGame(PlayerController winnerPlayerController)
+    {
+        winnerPlayerController.PlayerWon();
+
+        PlayWinningSequence(winnerPlayerController);
+
+        // clear up all the existing balls in the scene
+        foreach (var ball in _activeBallsInScene)
+        {
+            ball.ReturnBallToPool();
+        }
+        _activeBallsInScene.Clear();
+
+        _activeLevel.FinishGame();
+
+        // stop the ai running updates for now, there is no point
+        _aiPlayerMananger.SetUpdateState(false);
+
+        StartCoroutine(Co_DelayNewGame());
+    }
+
+    IEnumerator Co_DelayNewGame()
+    {
+        yield return new WaitForSeconds(2f);
+
+        ClearData();
+
+        StartGame(false);
+    }
+
+    private void ClearData()
+    {
+        _uniqueCharacterDataDict.Clear();
+        
+        _playerControllers.Clear();
+
+        Destroy(_activeLevel.gameObject);
+    }
+
+    private void PlayWinningSequence(PlayerController winnerPlayerController)
+    {
+        Transform winnerPlayerControllerTransform = winnerPlayerController.transform;
+
+        Sequence winningSequence = DOTween.Sequence();
+        Vector3 targetPosition =
+            winnerPlayerControllerTransform.position + winnerPlayerControllerTransform.forward * 7.5f;
+        winningSequence.Append(winnerPlayerControllerTransform.DOMove(targetPosition, 1.25f));
+    }
+
+    #endregion
+
+
     #region Listeners
 
     public void OnGoalColliderEventHandler(BallScoredData ballScoredData)
@@ -146,7 +212,7 @@ public class GameManager : MonoBehaviour
         Ball ball = ballScoredData.ball;
 
         // remove the ball from active balls list for the ai to consider immediately
-        _activeBallsInScene.Remove(ball.transform);
+        _activeBallsInScene.Remove(ball);
         UpdateActiveBalls();
 
         ball.Scored();
@@ -160,9 +226,22 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void OnBallSpawnedEventHandler(GameObject ballGo)
+    public void OnPlayerDied(PlayerDiedData playerDiedData)
     {
-        _activeBallsInScene.Add(ballGo.transform);
+        List<PlayerController> alivePlayerControllers = _playerControllers.Where(x => x.IsPlayerAlive).ToList();
+        if (alivePlayerControllers.Count > 1)
+            return;
+
+        // if there is only one player left, they're the winner and game should stop
+        if (alivePlayerControllers.Count == 1)
+        {
+            FinishGame(alivePlayerControllers[0]);
+        }
+    }
+
+    public void OnBallSpawnedEventHandler(Ball ball)
+    {
+        _activeBallsInScene.Add(ball);
         UpdateActiveBalls();
     }
 
