@@ -17,7 +17,7 @@ public class PlayerSection : MonoBehaviour
     private Transform _startingPosition;
 
     [SerializeField]
-    private GameObject _sectionBarrier;
+    private Animator _ballBlockerAnimator;
 
     public Transform StartingPosition => _startingPosition;
 
@@ -26,15 +26,12 @@ public class PlayerSection : MonoBehaviour
     public bool IsSectionOccupied { get; private set; }
 
     private int _goalOwnerPlayerIdx;
+    
+    private static readonly int Raise = Animator.StringToHash("Raise");
 
     #endregion
 
     #region Initialise
-
-    private void Awake()
-    {
-        SetBarrierState(false);
-    }
 
     public void Setup(int goalOwnerPlayerIdx)
     {
@@ -55,13 +52,13 @@ public class PlayerSection : MonoBehaviour
     {
         if (_goalOwnerPlayerIdx == playerDiedData.playerController.PlayerIdx)
         {
-            SetBarrierState(true);
+            RaiseBallBlocker();
         }
     }
     
-    public void SetBarrierState(bool setActive)
+    private void RaiseBallBlocker()
     {
-        _sectionBarrier.SetActive(setActive);
+        _ballBlockerAnimator.SetTrigger(Raise);
     }
 
     #endregion
