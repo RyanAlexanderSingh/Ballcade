@@ -40,7 +40,7 @@ public class PlayerUI : MonoBehaviour
 
     private void SetPlayerScoreText(int score)
     {
-        _playerScore.text = score.ToString();
+        _playerScore.text = score.ToString().PadLeft(2, '0');
     }
 
     public void SetPlayerLives(int currentLives)
