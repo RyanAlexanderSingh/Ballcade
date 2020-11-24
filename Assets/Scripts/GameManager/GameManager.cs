@@ -134,7 +134,10 @@ public class GameManager : MonoBehaviour
     private void LoadUI()
     {
         if (_scoreboardUI == null)
+        {
             _scoreboardUI = Instantiate(_scoreboardUIPrefab, _canvas.transform);
+            _scoreboardUI.transform.SetAsFirstSibling();
+        }
 
         _scoreboardUI.SetupScoreboard(_playerControllers);
     }

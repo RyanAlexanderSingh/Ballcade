@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d943bca26219b72409d5735e90001a26, type: 3}
   m_Name: AIPlayerData
   m_EditorClassIdentifier: 
-  playerSpeed: 15
+  playerSpeed: 10
   maxMovePosition: 5.7
   minMovePos: -5.7
   defaultReactionDelay: 0.1

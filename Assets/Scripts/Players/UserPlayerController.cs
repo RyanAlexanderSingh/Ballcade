@@ -35,7 +35,6 @@ public class UserPlayerController : PlayerController, IPlayer
 		Vector3 dir = transform.right * axis;
 		int dirXNorm = (int) dir.normalized.x;
 
-		Debug.Log(dirXNorm);
 		SetAnimBasedOnMovementDir(dirXNorm);
 
 		if (dirXNorm == 0)
