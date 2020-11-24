@@ -5,67 +5,72 @@ using UnityEngine;
 
 public class UserPlayerController : PlayerController, IPlayer
 {
-    #region Updates
+	#region Updates
 
-    void Update()
-    {
-        UpdateMovement();
-    }
+	void Update()
+	{
+		UpdateMovement();
+	}
 
-    public void UpdateMovement()
-    {
-        if (!CanMove)
-            return;
+	public void UpdateMovement()
+	{
+		#if UNITY_EDITOR
+		
+        float h = Input.GetAxisRaw ("Horizontal");
+        TryMove(h);
         
-//        float h = Input.GetAxisRaw ("Horizontal");
-        
-//        Move(h);
-    }
+        #endif
+	}
+
+	#endregion
 
 
-    #endregion
+	#region Movement
 
-    #region Movement
+	private void TryMove(float axis)
+	{
+		if (!CanMove)
+			return;
+		
+		Vector3 dir = transform.right * axis;
+		int dirXNorm = (int) dir.normalized.x;
 
-    private void Move(float axis)
-    {
-        Vector3 dir = transform.right * axis;
-        int dirXNorm = (int)dir.normalized.x;
-        
-        Debug.Log(dirXNorm);
-        SetAnimBasedOnMovementDir(dirXNorm);
-        
-        if (dirXNorm == 0)
-            return;
-        
-        transform.Translate(dir * Time.deltaTime * _playerData.playerSpeed, Space.World);
+		Debug.Log(dirXNorm);
+		SetAnimBasedOnMovementDir(dirXNorm);
 
-        transform.position = GetClampedTargetPosition(transform.position);
-    }
+		if (dirXNorm == 0)
+			return;
 
-    #endregion
+		transform.Translate(dir * Time.deltaTime * _playerData.playerSpeed, Space.World);
 
-    #region Listeners
+		transform.position = GetClampedTargetPosition(transform.position);
+	}
 
-    public void OnScreenTouchedEvent(ScreenTouchedData screenTouchedData)
-    {
-        float axis;
-        switch (screenTouchedData.screenTouchSide)
-        {
-            case MovementInput.eScreenTouchSide.None:
-                axis = 0f;
-                break;
-            case MovementInput.eScreenTouchSide.Left:
-                axis = -1f;
-                break;
-            case MovementInput.eScreenTouchSide.Right:
-                axis = 1f;
-                break;
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
-        Move(axis);
-    }
+	#endregion
 
-    #endregion
+
+	#region Listeners
+
+	public void OnScreenTouchedEvent(ScreenTouchedData screenTouchedData)
+	{
+		float axis;
+		switch (screenTouchedData.screenTouchSide)
+		{
+			case ScreenInput.eScreenTouchSide.None:
+				axis = 0f;
+				break;
+			case ScreenInput.eScreenTouchSide.Left:
+				axis = -1f;
+				break;
+			case ScreenInput.eScreenTouchSide.Right:
+				axis = 1f;
+				break;
+			default:
+				throw new ArgumentOutOfRangeException();
+		}
+
+		TryMove(axis);
+	}
+
+	#endregion
 }

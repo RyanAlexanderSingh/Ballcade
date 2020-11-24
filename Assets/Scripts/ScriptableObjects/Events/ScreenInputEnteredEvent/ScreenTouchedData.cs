@@ -5,5 +5,5 @@ using UnityEngine;
 [System.Serializable]
 public struct ScreenTouchedData
 {
-    public MovementInput.eScreenTouchSide screenTouchSide;
+    public ScreenInput.eScreenTouchSide screenTouchSide;
 }
