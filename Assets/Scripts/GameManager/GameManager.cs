@@ -6,6 +6,7 @@ using DG.Tweening;
 using DG.Tweening.Core;
 using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 

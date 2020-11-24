@@ -15,7 +15,33 @@ MonoBehaviour:
   _playerData: {fileID: 11400000, guid: e7939464e39c51b419c790b39a2d67e2, type: 2}
   _playerModel: {fileID: 6369250972056698861}
   _playerDiedEvent: {fileID: 11400000, guid: e555eed68de368b48b3c947d1acef512, type: 2}
-  _animator: {fileID: 4652822016548193099}
+--- !u!114 &6721139268403051275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3301668169368981947}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a2777885e5d34d75a536cc5767fd5af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseGameEvent: {fileID: 11400000, guid: 8af25049b77a0470eb55c74b06036ddc, type: 2}
+  _response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1079801440873251815}
+        m_MethodName: OnScreenTouchedEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &7703391251710910656
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -103,9 +129,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a3d35d4c5b06494da7a3c5f93bf94a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!95 &4652822016548193099 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 3059586265980363659, guid: f439314a43a5332489d29926f7e9fbe1,
-    type: 3}
-  m_PrefabInstance: {fileID: 7703391251710910656}
-  m_PrefabAsset: {fileID: 0}
