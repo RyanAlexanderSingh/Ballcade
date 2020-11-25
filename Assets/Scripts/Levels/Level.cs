@@ -100,7 +100,7 @@ public class Level : MonoBehaviour
                 yield return new WaitForSeconds(_gameLevelData.GetNextBallSpawnDelay());
 
                 int randomIdx = Random.Range(0, numSpawners);
-                _ballSpawners[randomIdx].SpawnBall();
+                _ballSpawners[randomIdx].FireBall();
             }
 
             yield return null;

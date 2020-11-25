@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 503602007809071590}
+  - component: {fileID: 22933161}
   m_Layer: 0
   m_Name: BallSpawn
   m_TagString: Untagged
@@ -23,13 +24,39 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 503602007809071591}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3, z: 1.6}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 3, z: 1.387}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 503602008769447756}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1773428102 &22933161
+ParentConstraint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 503602007809071591}
+  m_Enabled: 1
+  m_Weight: 1
+  m_TranslationAtRest: {x: 0, y: 3, z: 1.387}
+  m_RotationAtRest: {x: 0, y: 0, z: 0}
+  m_TranslationOffsets:
+  - {x: 0, y: 3, z: 1.387}
+  m_RotationOffsets:
+  - {x: 0, y: 0, z: 0}
+  m_AffectTranslationX: 1
+  m_AffectTranslationY: 1
+  m_AffectTranslationZ: 1
+  m_AffectRotationX: 0
+  m_AffectRotationY: 0
+  m_AffectRotationZ: 0
+  m_IsContraintActive: 1
+  m_IsLocked: 1
+  m_Sources:
+  - sourceTransform: {fileID: 8883761135213697479}
+    weight: 1
 --- !u!1 &503602008769447792
 GameObject:
   m_ObjectHideFlags: 0
@@ -70,15 +97,17 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 503602008769447792}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ed921d8d9d468734fbf4ea7cf8fe4515, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _spawnPoint: {fileID: 503602007809071590}
+  _spawnerTurntable: {fileID: 8883761135213697479}
   _ballSpawnData: {fileID: 11400000, guid: 0dcc843d829e9b1418d4d4b6d0f4710a, type: 2}
   onBallSpawnedSpawnedEvent: {fileID: 11400000, guid: c7bc5ed00bba52143a5b0299f3fcf643,
     type: 2}
+  testSpawn: 0
 --- !u!1001 &6243168870441590959
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -171,6 +200,16 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3309376813803239784, guid: 81aae37479618a549ab5efcc6580145d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3309376813803239784, guid: 81aae37479618a549ab5efcc6580145d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4149695199361893261, guid: 81aae37479618a549ab5efcc6580145d,
         type: 3}
       propertyPath: m_LocalRotation.x
@@ -201,6 +240,12 @@ PrefabInstance:
 --- !u!4 &5849763049167112004 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 81aae37479618a549ab5efcc6580145d,
+    type: 3}
+  m_PrefabInstance: {fileID: 6243168870441590959}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8883761135213697479 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3309376813803239784, guid: 81aae37479618a549ab5efcc6580145d,
     type: 3}
   m_PrefabInstance: {fileID: 6243168870441590959}
   m_PrefabAsset: {fileID: 0}

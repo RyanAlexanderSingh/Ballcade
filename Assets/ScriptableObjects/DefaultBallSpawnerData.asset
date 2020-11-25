@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44f11d6a2267ef5429ad5625206aa1a0, type: 3}
   m_Name: DefaultBallSpawnerData
   m_EditorClassIdentifier: 
-  _ballSpawnRandomArc: 15
+  _ballSpawnRandomArc: 25
