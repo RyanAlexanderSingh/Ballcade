@@ -104,6 +104,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spawnPoint: {fileID: 503602007809071590}
   _spawnerTurntable: {fileID: 8883761135213697479}
+  _cannonTransform: {fileID: 8012639098700210978}
   _ballSpawnData: {fileID: 11400000, guid: 0dcc843d829e9b1418d4d4b6d0f4710a, type: 2}
   onBallSpawnedSpawnedEvent: {fileID: 11400000, guid: c7bc5ed00bba52143a5b0299f3fcf643,
     type: 2}
@@ -213,27 +214,27 @@ PrefabInstance:
     - target: {fileID: 4149695199361893261, guid: 81aae37479618a549ab5efcc6580145d,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.20415059
+      value: -0.2376859
       objectReference: {fileID: 0}
     - target: {fileID: 4149695199361893261, guid: 81aae37479618a549ab5efcc6580145d,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.00000014901161
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4149695199361893261, guid: 81aae37479618a549ab5efcc6580145d,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.0000000037252903
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4149695199361893261, guid: 81aae37479618a549ab5efcc6580145d,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9789396
+      value: 0.97134215
       objectReference: {fileID: 0}
     - target: {fileID: 4149695199361893261, guid: 81aae37479618a549ab5efcc6580145d,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -23.560001
+      value: -27.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 81aae37479618a549ab5efcc6580145d, type: 3}
@@ -246,6 +247,12 @@ Transform:
 --- !u!4 &8883761135213697479 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3309376813803239784, guid: 81aae37479618a549ab5efcc6580145d,
+    type: 3}
+  m_PrefabInstance: {fileID: 6243168870441590959}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8012639098700210978 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4149695199361893261, guid: 81aae37479618a549ab5efcc6580145d,
     type: 3}
   m_PrefabInstance: {fileID: 6243168870441590959}
   m_PrefabAsset: {fileID: 0}

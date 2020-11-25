@@ -15,6 +15,9 @@ public class BallSpawner : MonoBehaviour
     [SerializeField]
     private Transform _spawnerTurntable;
 
+    [SerializeField] 
+    private Transform _cannonTransform;
+
     [SerializeField]
     private BallSpawnData _ballSpawnData;
     
@@ -70,10 +73,14 @@ public class BallSpawner : MonoBehaviour
 
     private void MoveSpawnerToRotation(Vector3 targetRotation)
     {
+        // save the cannons initial rotation to return to after applying some faked vertical recoil from shooting the ball
+        Vector3 initialCannonRotation = _cannonTransform.localRotation.eulerAngles;
+        Vector3 verticalCannonRecoilRotation = new Vector3(-35f, initialCannonRotation.y, initialCannonRotation.z);
+        
         Sequence sequence = DOTween.Sequence();
-        sequence.Append(_spawnerTurntable.DOLocalRotate(targetRotation, 0.2f));
-        sequence.OnComplete(SpawnBall);
-
+        sequence.Append(_spawnerTurntable.DOLocalRotate(targetRotation, 0.2f).OnComplete(SpawnBall));
+        sequence.Append(_cannonTransform.DOLocalRotate(verticalCannonRecoilRotation, 0.15f));
+        sequence.Append(_cannonTransform.DOLocalRotate(initialCannonRotation, 0.15f));
     }
 
     #endregion
