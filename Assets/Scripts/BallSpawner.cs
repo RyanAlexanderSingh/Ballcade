@@ -7,81 +7,73 @@ using Random = UnityEngine.Random;
 
 public class BallSpawner : MonoBehaviour
 {
-    #region Serialized Fields
+	#region Serialized Fields
 
-    [SerializeField]
-    private Transform _spawnPoint;
+	[SerializeField]
+	private Transform _spawnPoint;
 
-    [SerializeField]
-    private Transform _spawnerTurntable;
+	[SerializeField]
+	private Transform _spawnerTurntable;
 
-    [SerializeField] 
-    private Transform _cannonTransform;
+	[SerializeField]
+	private Transform _cannonTransform;
 
-    [SerializeField]
-    private BallSpawnData _ballSpawnData;
-    
-    [SerializeField]
-    private BallSpawnedEvent onBallSpawnedSpawnedEvent;
+	[SerializeField]
+	private BallSpawnData _ballSpawnData;
 
-    public bool testSpawn;
+	[SerializeField]
+	private BallSpawnedEvent onBallSpawnedSpawnedEvent;
 
-    #endregion
+	private Vector3 _startingDefaultSpawnRotation;
 
-
-    #region Update
-
-    private void Update()
-    {
-        if (testSpawn)
-        {
-            FireBall();
-            testSpawn = false;
-        }
-    }
-    
-
-    #endregion
+	#endregion
 
 
-    #region Spawn
+	void Awake()
+	{
+		_startingDefaultSpawnRotation = _spawnPoint.localRotation.eulerAngles;
+	}
 
-    public void FireBall()
-    {
-        float ballSpawnRandomArc = _ballSpawnData._ballSpawnRandomArc;
 
-        Vector3 defaultSpawnPointRotation = _spawnPoint.localRotation.eulerAngles;
-        float defaultSpawnYRot = defaultSpawnPointRotation.y;
+	#region Spawn
 
-        float randomYRotation = Random.Range(defaultSpawnYRot - ballSpawnRandomArc, defaultSpawnYRot + ballSpawnRandomArc);
+	public void FireBall()
+	{
+		float ballSpawnRandomArc = _ballSpawnData._ballSpawnRandomArc;
 
-        Vector3 newSpawnRotationVector = new Vector3(defaultSpawnPointRotation.x, randomYRotation, defaultSpawnPointRotation.z);
-        MoveSpawnerToRotation(newSpawnRotationVector);
-    }
+		float defaultSpawnYRot = _startingDefaultSpawnRotation.y;
 
-    private void SpawnBall()
-    {
-        GameObject pooledBall = ObjectPoolManager.instance.GetPooledObject(PoolableObjects.Ball);
-        pooledBall.SetActive(true);
-        
-        pooledBall.transform.SetPositionAndRotation(_spawnPoint.position, _spawnerTurntable.rotation);
-        Ball ball = pooledBall.GetComponent<Ball>();
-        ball.ApplySpawnForce();
+		float randomYRotation =
+			Random.Range(defaultSpawnYRot - ballSpawnRandomArc, defaultSpawnYRot + ballSpawnRandomArc);
 
-        onBallSpawnedSpawnedEvent.Raise(ball);
-    }
+		Vector3 newSpawnRotationVector =
+			new Vector3(_startingDefaultSpawnRotation.x, randomYRotation, _startingDefaultSpawnRotation.z);
+		MoveSpawnerToRotation(newSpawnRotationVector);
+	}
 
-    private void MoveSpawnerToRotation(Vector3 targetRotation)
-    {
-        // save the cannons initial rotation to return to after applying some faked vertical recoil from shooting the ball
-        Vector3 initialCannonRotation = _cannonTransform.localRotation.eulerAngles;
-        Vector3 verticalCannonRecoilRotation = new Vector3(-35f, initialCannonRotation.y, initialCannonRotation.z);
-        
-        Sequence sequence = DOTween.Sequence();
-        sequence.Append(_spawnerTurntable.DOLocalRotate(targetRotation, 0.2f).OnComplete(SpawnBall));
-        sequence.Append(_cannonTransform.DOLocalRotate(verticalCannonRecoilRotation, 0.15f));
-        sequence.Append(_cannonTransform.DOLocalRotate(initialCannonRotation, 0.15f));
-    }
+	private void SpawnBall()
+	{
+		GameObject pooledBall = ObjectPoolManager.instance.GetPooledObject(PoolableObjects.Ball);
+		pooledBall.SetActive(true);
 
-    #endregion
+		pooledBall.transform.SetPositionAndRotation(_spawnPoint.position, _spawnerTurntable.rotation);
+		Ball ball = pooledBall.GetComponent<Ball>();
+		ball.ApplySpawnForce();
+
+		onBallSpawnedSpawnedEvent.Raise(ball);
+	}
+
+	private void MoveSpawnerToRotation(Vector3 targetRotation)
+	{
+		// save the cannons initial rotation to return to after applying some faked vertical recoil from shooting the ball
+		Vector3 initialCannonRotation = _cannonTransform.localRotation.eulerAngles;
+		Vector3 verticalCannonRecoilRotation = new Vector3(-35f, initialCannonRotation.y, initialCannonRotation.z);
+
+		Sequence sequence = DOTween.Sequence();
+		sequence.Append(_spawnerTurntable.DOLocalRotate(targetRotation, 0.2f).OnComplete(SpawnBall));
+		sequence.Append(_cannonTransform.DOLocalRotate(verticalCannonRecoilRotation, 0.15f));
+		sequence.Append(_cannonTransform.DOLocalRotate(initialCannonRotation, 0.15f));
+	}
+
+	#endregion
 }
