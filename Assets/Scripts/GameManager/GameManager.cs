@@ -23,13 +23,6 @@ public class GameManager : MonoBehaviour
     private List<CharacterVisualData> _characterVisualDatas = new List<CharacterVisualData>();
 
     [SerializeField]
-    private AIPlayerMananger _aiPlayerMananger;
-
-    [Header("UI")]
-    [SerializeField]
-    private Canvas _canvas;
-
-    [SerializeField]
     private ScoreboardUI _scoreboardUIPrefab;
 
     [SerializeField]
@@ -41,6 +34,10 @@ public class GameManager : MonoBehaviour
     private List<Ball> _activeBallsInScene = new List<Ball>();
 
     private ScoreboardUI _scoreboardUI;
+    
+    private Canvas _canvas;
+    
+    private AIPlayerMananger _aiPlayerMananger;
 
     private Dictionary<int, CharacterVisualData> _uniqueCharacterDataDict = new Dictionary<int, CharacterVisualData>();
 
@@ -53,12 +50,15 @@ public class GameManager : MonoBehaviour
 
     #region Initialise
 
-    void Start()
+    public void Initialise(AIPlayerMananger aiPlayerMananger)
     {
-        StartGame(true);
+        _aiPlayerMananger = aiPlayerMananger;
+        
+        //TODO:: Remove this when adding the state manager, this is incredibly temp
+        _canvas = FindObjectOfType<Canvas>();
     }
 
-    private void StartGame(bool loadScene)
+    public void StartGame(bool loadScene)
     {
         CreateLevelAndPlayers(loadScene);
         LoadUI();

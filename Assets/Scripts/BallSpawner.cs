@@ -53,7 +53,7 @@ public class BallSpawner : MonoBehaviour
 
 	private void SpawnBall()
 	{
-		GameObject pooledBall = ObjectPoolManager.instance.GetPooledObject(PoolableObjects.Ball);
+		GameObject pooledBall = App.objectPooler.GetPooledObject(PoolableObjects.Ball);
 		pooledBall.SetActive(true);
 
 		pooledBall.transform.SetPositionAndRotation(_spawnPoint.position, _spawnerTurntable.rotation);

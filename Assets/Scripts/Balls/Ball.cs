@@ -67,7 +67,7 @@ public class Ball : MonoBehaviour, IPooledObject
     {
         Deactivate();
 
-        ObjectPoolManager.instance.ReturnToPool(gameObject);
+        App.objectPooler.ReturnToPool(gameObject);
     }
 
     private void StopPhysics()

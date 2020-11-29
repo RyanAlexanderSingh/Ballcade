@@ -29,8 +29,6 @@ public class ObjectPoolManager : MonoBehaviour
     public Dictionary<PoolableObjects, List<GameObject>> poolDictionary =
         new Dictionary<PoolableObjects, List<GameObject>>();
 
-    public static ObjectPoolManager instance;
-    
 
     #endregion
 
@@ -39,11 +37,6 @@ public class ObjectPoolManager : MonoBehaviour
 
     void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-        }
-
         CreatePools();
     }
 
