@@ -58,7 +58,7 @@ public class BallSpawner : MonoBehaviour
 
 		pooledBall.transform.SetPositionAndRotation(_spawnPoint.position, _spawnerTurntable.rotation);
 		Ball ball = pooledBall.GetComponent<Ball>();
-		ball.ApplySpawnForce();
+		ball.Initialise();
 
 		onBallSpawnedSpawnedEvent.Raise(ball);
 	}

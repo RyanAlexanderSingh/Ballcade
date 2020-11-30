@@ -80,3 +80,8 @@ MonoBehaviour:
     prefab: {fileID: 996920157578843287, guid: 3d7e6b68423da9844a0fc2c28c4e5cb4, type: 3}
     size: 6
     shouldExpand: 1
+  - poolableObjectType: 1
+    prefab: {fileID: 5872491026285475714, guid: 239b751e45378d046905d8d213bb1de8,
+      type: 3}
+    size: 6
+    shouldExpand: 1

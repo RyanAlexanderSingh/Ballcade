@@ -6,7 +6,8 @@ using UnityEngine.Serialization;
 
 public enum PoolableObjects
 {
-    Ball
+    Ball,
+    DefaultConfetti
 }
 
 public class ObjectPoolManager : MonoBehaviour

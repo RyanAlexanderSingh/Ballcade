@@ -1,78 +1,132 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 public class Ball : MonoBehaviour, IPooledObject
 {
-    #region ScriptableObjects
+	#region ScriptableObjects
 
-    [SerializeField] private BallData _ballData;
+	[SerializeField]
+	private BallData _ballData;
 
-    #endregion
-    
+	#endregion
 
-    #region Vars
 
-    [SerializeField] private Rigidbody _rigidbody;
-    [SerializeField] private TrailRenderer _trailRenderer;
-    
-    public int PointsValueForGoal => _ballData.PointsValueForGoal;
+	#region Vars
 
-    #endregion
+	[SerializeField]
+	private Rigidbody _rigidbody;
 
-    private void FixedUpdate()
-    {
-        EnsureVelocityMinimum();
-    }
+	[SerializeField]
+	private TrailRenderer _trailRenderer;
 
-    private void EnsureVelocityMinimum()
-    {
-        if (_rigidbody.velocity.magnitude >= _ballData.MinimumVelocity)
-            return;
-        
-        Vector2 v = _rigidbody.velocity;
-        v = v.normalized;
-        v *= _ballData.MinimumVelocity;
-        _rigidbody.velocity = v;
-    }
+	private bool _constrainYVelocity;
 
-    public void OnObjectSpawned()
-    {
-        StopPhysics();
-    }
+	public int PointsValueForGoal => _ballData.PointsValueForGoal;
 
-    public void ApplySpawnForce()
-    {
-        _rigidbody.AddForce(_ballData.GetInitialSpawnForce(transform), ForceMode.Impulse);
-    }
+	#endregion
 
-    private void Deactivate()
-    {
-        StopPhysics();
-        _trailRenderer.Clear();
-    }
 
-    public void Scored()
-    {
-        StartCoroutine(CoHandleScoredBallObj());
-    }
-    
-    private IEnumerator CoHandleScoredBallObj()
-    {
-        yield return new WaitForSeconds(_ballData.DespawnDelayAfterGoal);
+	private void FixedUpdate()
+	{
+		EnsureVelocityMinimum();
 
-        ReturnBallToPool();
-    }
+		if (!_constrainYVelocity)
+			return;
 
-    public void ReturnBallToPool()
-    {
-        Deactivate();
+		var clampedYVelocity = _rigidbody.velocity;
+		clampedYVelocity = new Vector3(clampedYVelocity.x, 0f, clampedYVelocity.z);
+		_rigidbody.velocity = clampedYVelocity;
+	}
 
-        App.objectPooler.ReturnToPool(gameObject);
-    }
+	private void LateUpdate()
+	{
+		Vector3 rotationAxis = Vector3.Cross(_rigidbody.velocity.normalized, Vector3.up);
+		Debug.DrawLine(transform.position, transform.position + rotationAxis, Color.magenta);
 
-    private void StopPhysics()
-    {
-        _rigidbody.velocity = Vector3.zero;
-        _rigidbody.angularVelocity = Vector3.zero;
-    }
+		transform.RotateAround(transform.position, rotationAxis,
+			-Mathf.Sin(_rigidbody.velocity.magnitude * 0.5f * 2f * Mathf.PI) * Mathf.Rad2Deg);
+	}
+
+	private void EnsureVelocityMinimum()
+	{
+		if (_rigidbody.velocity.magnitude >= _ballData.MinimumVelocity)
+			return;
+
+		Vector2 v = _rigidbody.velocity;
+		v = v.normalized;
+		v *= _ballData.MinimumVelocity;
+		_rigidbody.velocity = v;
+	}
+
+	public void OnObjectSpawned()
+	{
+		StopPhysics();
+	}
+
+	IEnumerator CoDelayConstraitSettings()
+	{
+		yield return new WaitForSeconds(2f);
+
+		_constrainYVelocity = true;
+	}
+
+	public void Initialise()
+	{
+		_rigidbody.AddForce(_ballData.GetInitialSpawnForce(transform), ForceMode.Impulse);
+		StartCoroutine(CoDelayConstraitSettings());
+	}
+
+	private void Deactivate()
+	{
+		StopPhysics();
+		_trailRenderer.Clear();
+
+		_rigidbody.constraints = RigidbodyConstraints.None;
+	}
+
+	public void Scored()
+	{
+		StartCoroutine(CoHandleScoredBallObj());
+	}
+
+	private IEnumerator CoHandleScoredBallObj()
+	{
+		yield return new WaitForSeconds(_ballData.DespawnDelayAfterGoal);
+
+		ReturnBallToPool();
+	}
+
+	public void ReturnBallToPool()
+	{
+		Deactivate();
+
+		App.instance.StartCoroutine(CoSpawnConfetti());
+
+		App.objectPooler.ReturnToPool(gameObject);
+	}
+
+	IEnumerator CoSpawnConfetti()
+	{
+		GameObject pooledConfetti = App.objectPooler.GetPooledObject(PoolableObjects.DefaultConfetti);
+		pooledConfetti.SetActive(true);
+
+		pooledConfetti.transform.SetPositionAndRotation(transform.position, Quaternion.identity);
+
+		yield return new WaitForSeconds(2f);
+
+		App.objectPooler.ReturnToPool(pooledConfetti);
+	}
+
+	private void StopPhysics()
+	{
+		_rigidbody.velocity = Vector3.zero;
+		_rigidbody.angularVelocity = Vector3.zero;
+		_constrainYVelocity = false;
+	}
+
+	private void OnEnable()
+	{
+		OnObjectSpawned();
+	}
 }

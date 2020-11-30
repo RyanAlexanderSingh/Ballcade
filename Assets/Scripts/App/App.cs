@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class App : MonoBehaviour
+public class App : MonoSingleton<App>
 {
-
 	private GameManager _gameManager;
 	private AIPlayerMananger _aiPlayerMananger;
 	

@@ -15,4 +15,4 @@ MonoBehaviour:
   _initalInpulsePower: 2.5
   _minimumVelocity: 10
   _pointValue: 1
-  _despawnDelayAfterGoal: 0.5
+  _despawnDelayAfterGoal: 0.2
