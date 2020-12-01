@@ -40,6 +40,7 @@ public class App : MonoSingleton<App>
 	private void CreateManagers()
 	{
 		_gameManager = CreateManagerPrefab<GameManager>("GameManager");
+		
 		_aiPlayerMananger = CreateManagerPrefab<AIPlayerMananger>("AIPlayerManager");
 		
 		objectPooler = CreateManagerPrefab<ObjectPoolManager>("ObjectPoolManager");
