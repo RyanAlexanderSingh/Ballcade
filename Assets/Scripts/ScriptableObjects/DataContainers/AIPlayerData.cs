@@ -1,13 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-[CreateAssetMenu(fileName = "AIPlayerData", menuName = "Ballcade/AI Player Data")]
-public class AIPlayerData : PlayerData
+namespace Ballcade
 {
-    #region Vars
+    [CreateAssetMenu(fileName = "AIPlayerData", menuName = "Ballcade/AI Player Data")]
+    public class AIPlayerData : PlayerData
+    {
+        #region Vars
 
-    public float defaultReactionDelay = 0.1f;
+        public float defaultReactionDelay = 0.1f;
 
-    #endregion
+        #endregion
+    }
 }

@@ -1,61 +1,60 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using UnityEngine;
 
-[CreateAssetMenu(fileName = "GameLevelData", menuName = "Ballcade/Game Level Data")]
-public class GameLevelData : ScriptableObject
+namespace Ballcade
 {
-    #region Enums
-
-    public enum AdditiveLevelScene
+    [CreateAssetMenu(fileName = "GameLevelData", menuName = "Ballcade/Game Level Data")]
+    public class GameLevelData : ScriptableObject
     {
-        Arena_01
-    }
+        #region Enums
+
+        public enum AdditiveLevelScene
+        {
+            Arena_01
+        }
     
-    #endregion
+        #endregion
     
     
-    #region Vars
+        #region Vars
 
-    [SerializeField]
-    private Level _level;
+        [SerializeField]
+        private Level _level;
     
-    [SerializeField] 
-    private AdditiveLevelScene levelScene;
+        [SerializeField] 
+        private AdditiveLevelScene levelScene;
     
-    [Tooltip("Num of AI opponents. If it is a 4 way arena, this number should be 3")]
-    [SerializeField] 
-    private int _numOfAIOpponents = 3;
+        [Tooltip("Num of AI opponents. If it is a 4 way arena, this number should be 3")]
+        [SerializeField] 
+        private int _numOfAIOpponents = 3;
     
-    [SerializeField] 
-    private int _numOfLives = 10;
+        [SerializeField] 
+        private int _numOfLives = 10;
 
-    [SerializeField] 
-    private float _ballSpawnDelay = 1.5f;
+        [SerializeField] 
+        private float _ballSpawnDelay = 1.5f;
 
-    [SerializeField]
-    private int _maxNumActiveBalls = 5;
+        [SerializeField]
+        private int _maxNumActiveBalls = 5;
 
-    public Level Level => _level;
+        public Level Level => _level;
 
-    public int NumOfAIOpponents => _numOfAIOpponents;
+        public int NumOfAIOpponents => _numOfAIOpponents;
 
-    public AdditiveLevelScene LevelScene => levelScene;
+        public AdditiveLevelScene LevelScene => levelScene;
     
-    public int NumberOfStartingLives => _numOfLives;
+        public int NumberOfStartingLives => _numOfLives;
 
-    public int MaxNumActiveBalls => _maxNumActiveBalls;
+        public int MaxNumActiveBalls => _maxNumActiveBalls;
 
     
-    #endregion
+        #endregion
 
-    /*
+        /*
      * In future, this will not just be a standard number but will probably increase over time with a curve
      */
-    public float GetNextBallSpawnDelay()
-    {
-        return _ballSpawnDelay;
+        public float GetNextBallSpawnDelay()
+        {
+            return _ballSpawnDelay;
+        }
     }
 }

@@ -1,7 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Events;
+﻿using UnityEngine.Events;
 
-[System.Serializable]
-public class UnityBallSpawnedEvent : UnityEvent<Ball> { }
+namespace Ballcade.BallSpawnedEvent
+{
+    [System.Serializable]
+    public class UnityBallSpawnedEvent : UnityEvent<Ball> { }
+}

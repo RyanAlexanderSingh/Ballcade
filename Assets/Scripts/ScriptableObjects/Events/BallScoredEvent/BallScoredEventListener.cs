@@ -1,3 +1,4 @@
-﻿using UnityEngine;
-
-public class BallScoredEventListener : BaseGameEventListener<BallScoredData, BallScoredEvent, UnityBallScoredEvent> { }
+﻿namespace Ballcade.BallScoredEvent
+{
+    public class BallScoredEventListener : BaseGameEventListener<BallScoredData, BallScoredEvent, UnityBallScoredEvent> { }
+}

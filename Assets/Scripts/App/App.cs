@@ -1,61 +1,53 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class App : MonoSingleton<App>
+namespace Ballcade
 {
-	private GameManager _gameManager;
-	private AIPlayerMananger _aiPlayerMananger;
+	public class App : MonoSingleton<App>
+	{
+		[Header("Dependencies")]
+		[SerializeField] private ObjectPoolManager _objectPoolManager;
 	
-	public static ObjectPoolManager objectPooler { get; private set; }
+		public static ObjectPoolManager ObjectPool { get; private set; }
+
+		public void LoadScene(string sceneName, LoadSceneMode loadSceneMode)
+		{
+			SceneManager.LoadScene(sceneName, loadSceneMode);
+		}
 	
-	private void Awake()
-	{
-		DontDestroyOnLoad(gameObject);
+		protected void Awake()
+		{
+			DontDestroyOnLoad(gameObject);
 		
-		SetAppSettings();
+			SetAppSettings();
 
-		CreateManagers();
+			CreateObjectPool();
+		}
 
-		StartGame();
-	}
+		private void SetAppSettings()
+		{
+			// Set app defaults
+			Application.targetFrameRate = 30;
+			Application.runInBackground = true;
 
-	private void SetAppSettings()
-	{
-		// Set app defaults
-		Application.targetFrameRate = 30;
-		Application.runInBackground = true;
-
-		// Vsync must be off in editor to adhere to target frame rate
-		#if UNITY_EDITOR
+			// Vsync must be off in editor to adhere to target frame rate
+#if UNITY_EDITOR
 		
-		QualitySettings.vSyncCount = 0;
+			QualitySettings.vSyncCount = 0;
 		
-		#endif
-		
-		// Disable screen dimming
-		Screen.sleepTimeout = SleepTimeout.NeverSleep;
-	}
+#endif
+			// Disable screen dimming
+			Screen.sleepTimeout = SleepTimeout.NeverSleep;
+		}
 
-	private void CreateManagers()
-	{
-		_gameManager = CreateManagerPrefab<GameManager>("GameManager");
-		
-		_aiPlayerMananger = CreateManagerPrefab<AIPlayerMananger>("AIPlayerManager");
-		
-		objectPooler = CreateManagerPrefab<ObjectPoolManager>("ObjectPoolManager");
-	}
+		private void CreateObjectPool()
+		{
+			ObjectPool = CreateManagerPrefab<ObjectPoolManager>(_objectPoolManager);
+		}
 
-	private T CreateManagerPrefab<T>(string prefabName) where T : Object
-	{
-		var original = Resources.Load<T>($"Managers/{prefabName}");
-		return Instantiate(original, transform, true);
-	}
-
-	private void StartGame()
-	{
-		_gameManager.Initialise(_aiPlayerMananger);
-
-		_gameManager.StartGame(true);
+		private T CreateManagerPrefab<T>(Object prefab) where T : Object
+		{
+			return Instantiate(prefab, transform, true) as T;
+		}
 	}
 }

@@ -1,15 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-[CreateAssetMenu(fileName = "PlayerData", menuName = "Ballcade/Player Data")]
-public class PlayerData : ScriptableObject
+namespace Ballcade
 {
-    #region Vars
+    [CreateAssetMenu(fileName = "PlayerData", menuName = "Ballcade/Player Data")]
+    public class PlayerData : ScriptableObject
+    {
+        #region Vars
 
-    public float playerSpeed = 10f;
-    public float maxMovePosition = 7.5f;
-    public float minMovePos = -7.5f;
+        public float playerSpeed = 10f;
+        public float maxMovePosition = 7.5f;
+        public float minMovePos = -7.5f;
 
-    #endregion
+        #endregion
+    }
 }

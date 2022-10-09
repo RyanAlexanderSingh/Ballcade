@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Void Event", menuName = "Ballcade/Void Game Event")]
-public class VoidEvent : BaseGameEvent<VoidData>
+namespace Ballcade.VoidEvent
 {
-    public void Raise() => Raise(new VoidData());
+    [CreateAssetMenu(fileName = "New Void Event", menuName = "Ballcade/Void Game Event")]
+    public class VoidEvent : BaseGameEvent<VoidData>
+    {
+        public void Raise() => Raise(new VoidData());
+    }
 }

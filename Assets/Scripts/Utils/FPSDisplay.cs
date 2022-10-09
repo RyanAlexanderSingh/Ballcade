@@ -1,28 +1,30 @@
 ﻿using UnityEngine;
-using System.Collections;
- 
-public class FPSDisplay : MonoBehaviour
+
+namespace Ballcade.Utils
 {
-	float deltaTime = 0.0f;
- 
-	void Update()
+	public class FPSDisplay : MonoBehaviour
 	{
-		deltaTime += (Time.unscaledDeltaTime - deltaTime) * 0.1f;
-	}
+		float deltaTime = 0.0f;
  
-	void OnGUI()
-	{
-		int w = Screen.width, h = Screen.height;
+		void Update()
+		{
+			deltaTime += (Time.unscaledDeltaTime - deltaTime) * 0.1f;
+		}
  
-		GUIStyle style = new GUIStyle();
+		void OnGUI()
+		{
+			int w = Screen.width, h = Screen.height;
  
-		Rect rect = new Rect(0, 0, w, height: h * 0.1f);
-		style.alignment = TextAnchor.UpperLeft;
-		style.fontSize = (int)(h * 0.05f);
-		style.normal.textColor = Color.white;
-		float msec = deltaTime * 1000.0f;
-		float fps = 1.0f / deltaTime;
-		string text = string.Format("{0:0.0} ms ({1:0.} fps)", msec, fps);
-		GUI.Label(rect, text, style);
+			GUIStyle style = new GUIStyle();
+ 
+			Rect rect = new Rect(0, 0, w, height: h * 0.1f);
+			style.alignment = TextAnchor.UpperLeft;
+			style.fontSize = (int)(h * 0.05f);
+			style.normal.textColor = Color.white;
+			float msec = deltaTime * 1000.0f;
+			float fps = 1.0f / deltaTime;
+			string text = string.Format("{0:0.0} ms ({1:0.} fps)", msec, fps);
+			GUI.Label(rect, text, style);
+		}
 	}
 }

@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public interface IPlayer
+﻿namespace Ballcade
 {
-    void UpdateMovement();
+    public interface IPlayer
+    {
+        void UpdateMovement();
+    }
 }

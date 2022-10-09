@@ -1,45 +1,45 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using Ballcade.BallScoredEvent;
 using UnityEngine;
 
-public class GoalCollider : MonoBehaviour
+namespace Ballcade
 {
-    #region Vars
-
-    [SerializeField] private BallScoredEvent onGoalBaseScoredEvent;
-
-    private int _goalOwnerPlayerIdx;
-
-    #endregion
-
-    #region Initialise
-
-    public void Setup(int goalOwnerPlayerIdx)
+    public class GoalCollider : MonoBehaviour
     {
-        _goalOwnerPlayerIdx = goalOwnerPlayerIdx;
-    }
+        #region Vars
 
-    #endregion
+        [SerializeField] private BallScoredEvent.BallScoredEvent onGoalBaseScoredEvent;
 
+        private int _goalOwnerPlayerIdx;
 
-    #region Collisions
+        #endregion
 
-    private void OnTriggerEnter(Collider other)
-    {
-        Ball ball = other.GetComponent<Ball>();
-        if (ball == null)
+        #region Initialise
+
+        public void Setup(int goalOwnerPlayerIdx)
         {
-            Debug.LogError($"Something other than a ball collided with the goal collider: {other}");
-            return;
+            _goalOwnerPlayerIdx = goalOwnerPlayerIdx;
         }
-        
-        BallScoredData goalScoredData = new BallScoredData
-        {
-            ball = ball, playerGoalIdx = _goalOwnerPlayerIdx
-        };
-        onGoalBaseScoredEvent.Raise(goalScoredData);
-    }
 
-    #endregion
+        #endregion
+
+        #region Collisions
+
+        private void OnTriggerEnter(Collider other)
+        {
+            Ball ball = other.GetComponent<Ball>();
+            if (ball == null)
+            {
+                Debug.LogError($"Something other than a ball collided with the goal collider: {other}");
+                return;
+            }
+        
+            BallScoredData goalScoredData = new BallScoredData
+            {
+                ball = ball, playerGoalIdx = _goalOwnerPlayerIdx
+            };
+            onGoalBaseScoredEvent.Raise(goalScoredData);
+        }
+
+        #endregion
+    }
 }

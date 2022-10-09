@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public interface IPooledObject
+﻿namespace Ballcade
 {
-   void OnObjectSpawned();
+   public interface IPooledObject
+   {
+      void OnObjectSpawned();
+   }
 }

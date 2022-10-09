@@ -1,30 +1,30 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class PlayerLostUI : MonoBehaviour
+namespace Ballcade
 {
+    public class PlayerLostUI : MonoBehaviour
+    {
 
-    #region Vars
+        #region Vars
 
 
     
     
-    #endregion
+        #endregion
 
 
-    #region Buttons
+        #region Buttons
 
-    public void OnRestartButtonPressed()
-    {
+        public void OnRestartButtonPressed()
+        {
         
-    }
+        }
 
-    public void OnQuitButtonPressed()
-    {
+        public void OnQuitButtonPressed()
+        {
         
-    }
+        }
 
-    #endregion
+        #endregion
+    }
 }

@@ -1,3 +1,4 @@
-﻿using UnityEngine;
-
-public class ScreenTouchedEventListener : BaseGameEventListener<ScreenTouchedData, ScreenTouchedEvent, UnityScreenTouchedEvent> { }
+﻿namespace Ballcade.ScreenInputEnteredEvent
+{
+    public class ScreenTouchedEventListener : BaseGameEventListener<ScreenTouchedData, ScreenTouchedEvent, UnityScreenTouchedEvent> { }
+}

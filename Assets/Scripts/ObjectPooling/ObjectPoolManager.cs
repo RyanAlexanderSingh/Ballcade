@@ -4,100 +4,103 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public enum PoolableObjects
+namespace Ballcade
 {
-    Ball,
-    DefaultConfetti
-}
-
-public class ObjectPoolManager : MonoBehaviour
-{
-    [System.Serializable]
-    public class Pool
+    public enum PoolableObjects
     {
-        public PoolableObjects poolableObjectType;
-        public GameObject prefab;
-        public int size;
-        public bool shouldExpand;
+        Ball,
+        DefaultConfetti
     }
 
-    #region Vars
-
-    [SerializeField] private Transform objectPoolContainer;
-
-    public List<Pool> pools = new List<Pool>();
-
-    public Dictionary<PoolableObjects, List<GameObject>> poolDictionary =
-        new Dictionary<PoolableObjects, List<GameObject>>();
-
-
-    #endregion
-
-
-    #region Awake
-
-    void Awake()
+    public class ObjectPoolManager : MonoBehaviour
     {
-        CreatePools();
-    }
-
-    #endregion
-
-
-    #region Pooling
-
-    void CreatePools()
-    {
-        foreach (Pool item in pools)
+        [System.Serializable]
+        public class Pool
         {
-            List<GameObject> pooledGameObjects = new List<GameObject>();
-            for (int i = 0; i < item.size; i++)
+            public PoolableObjects poolableObjectType;
+            public GameObject prefab;
+            public int size;
+            public bool shouldExpand;
+        }
+
+        #region Vars
+
+        [SerializeField] private Transform objectPoolContainer;
+
+        public List<Pool> pools = new List<Pool>();
+
+        public Dictionary<PoolableObjects, List<GameObject>> poolDictionary =
+            new Dictionary<PoolableObjects, List<GameObject>>();
+
+
+        #endregion
+
+
+        #region Awake
+
+        void Awake()
+        {
+            CreatePools();
+        }
+
+        #endregion
+
+
+        #region Pooling
+
+        void CreatePools()
+        {
+            foreach (Pool item in pools)
             {
-                GameObject obj = CreateItemForObjectPool(item.prefab);
-                pooledGameObjects.Add(obj);
+                List<GameObject> pooledGameObjects = new List<GameObject>();
+                for (int i = 0; i < item.size; i++)
+                {
+                    GameObject obj = CreateItemForObjectPool(item.prefab);
+                    pooledGameObjects.Add(obj);
+                }
+
+                poolDictionary[item.poolableObjectType] = pooledGameObjects;
             }
-
-            poolDictionary[item.poolableObjectType] = pooledGameObjects;
         }
-    }
 
-    public GameObject GetPooledObject(PoolableObjects poolableObjectType)
-    {
-        if (!poolDictionary.TryGetValue(poolableObjectType, out var pooledObjects))
+        public GameObject GetPooledObject(PoolableObjects poolableObjectType)
         {
-            Debug.LogError("Trying to get a pooled object from a key which has no list in the pooled dictionary");
-            return null;
-        }
+            if (!poolDictionary.TryGetValue(poolableObjectType, out var pooledObjects))
+            {
+                Debug.LogError("Trying to get a pooled object from a key which has no list in the pooled dictionary");
+                return null;
+            }
         
-        foreach (var obj in pooledObjects)
-        {
-            if (!obj.activeInHierarchy)
+            foreach (var obj in pooledObjects)
             {
-                return obj;
+                if (!obj.activeInHierarchy)
+                {
+                    return obj;
+                }
             }
+
+            Pool itemPool = pools.FirstOrDefault(x => x.poolableObjectType == poolableObjectType);
+            if (itemPool == null || !itemPool.shouldExpand)
+                return null;
+
+            var item = CreateItemForObjectPool(itemPool.prefab);
+            pooledObjects.Add(item);
+            poolDictionary[itemPool.poolableObjectType] = pooledObjects;
+            return item;
         }
 
-        Pool itemPool = pools.FirstOrDefault(x => x.poolableObjectType == poolableObjectType);
-        if (itemPool == null || !itemPool.shouldExpand)
-            return null;
+        public void ReturnToPool(GameObject itemToBeReturned)
+        {
+            itemToBeReturned.SetActive(false);
+        }
 
-        var item = CreateItemForObjectPool(itemPool.prefab);
-        pooledObjects.Add(item);
-        poolDictionary[itemPool.poolableObjectType] = pooledObjects;
-        return item;
+        private GameObject CreateItemForObjectPool(GameObject prefab)
+        {
+            GameObject newPoolItem = Instantiate(prefab, objectPoolContainer, false);
+            newPoolItem.SetActive(false);
+            return newPoolItem;
+        }
+
+        #endregion
     }
-
-    public void ReturnToPool(GameObject itemToBeReturned)
-    {
-        itemToBeReturned.SetActive(false);
-    }
-
-    private GameObject CreateItemForObjectPool(GameObject prefab)
-    {
-        GameObject newPoolItem = Instantiate(prefab, objectPoolContainer, false);
-        newPoolItem.SetActive(false);
-        return newPoolItem;
-    }
-
-    #endregion
 }

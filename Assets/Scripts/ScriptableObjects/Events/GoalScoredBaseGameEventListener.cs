@@ -1,6 +1,5 @@
-﻿using UnityEngine;
- using UnityEngine.Events;
- 
+﻿namespace Ballcade
+{
  [System.Serializable]
 // public class GoalScoredGameEventObject : UnityEvent<GoalBaseGameEvent.GoalScoredData > { }
 
@@ -12,3 +11,4 @@
 //         response.Invoke(goalEvent);
 //     }
  }
+}

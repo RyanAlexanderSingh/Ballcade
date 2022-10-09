@@ -1,9 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-[System.Serializable]
-public struct ScreenTouchedData
+﻿namespace Ballcade.ScreenInputEnteredEvent
 {
-    public ScreenInput.eScreenTouchSide screenTouchSide;
+    [System.Serializable]
+    public struct ScreenTouchedData
+    {
+        public ScreenInput.eScreenTouchSide screenTouchSide;
+    }
 }

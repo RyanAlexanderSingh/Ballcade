@@ -1,93 +1,97 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Ballcade.ScreenInputEnteredEvent;
 using UnityEngine;
 
-public class ScreenInput : MonoBehaviour
+namespace Ballcade
 {
-	#region Enums
-
-	[System.Serializable]
-	public enum eScreenTouchSide
+	public class ScreenInput : MonoBehaviour
 	{
-		None,
-		Left,
-		Right
-	}
+		#region Enums
 
-	#endregion
+		[System.Serializable]
+		public enum eScreenTouchSide
+		{
+			None,
+			Left,
+			Right
+		}
 
-
-	#region Vars
-
-	[SerializeField]
-	private ScreenTouchedEvent _screenTouchedEvent;
-
-	private eScreenTouchSide _lastTouchedSide;
-	private eScreenTouchSide _cachedScreenTouchSide;
+		#endregion
 
 
-	private List<eScreenTouchSide> _activeTouches = new List<eScreenTouchSide>();
+		#region Vars
 
-	#endregion
+		[SerializeField]
+		private ScreenTouchedEvent _screenTouchedEvent;
 
-
-	#region Updates
-
-	private void Update()
-	{
-		// using a cached version so we can send none once but then it won't keep sending it
-		if (_cachedScreenTouchSide == eScreenTouchSide.None && _cachedScreenTouchSide == _lastTouchedSide)
-			return;
-
-		SendMovementInput(_lastTouchedSide);
-		_cachedScreenTouchSide = _lastTouchedSide;
-	}
-
-	#endregion
+		private eScreenTouchSide _lastTouchedSide;
+		private eScreenTouchSide _cachedScreenTouchSide;
 
 
-	#region Events
+		private List<eScreenTouchSide> _activeTouches = new List<eScreenTouchSide>();
 
-	public void OnLeftSidePressed()
-	{
-		_activeTouches.Add(eScreenTouchSide.Left);
-		_lastTouchedSide = eScreenTouchSide.Left;
-	}
+		#endregion
 
-	public void OnRightSidePressed()
-	{
-		_activeTouches.Add(eScreenTouchSide.Right);
-		_lastTouchedSide = eScreenTouchSide.Right;
-	}
 
-	public void OnLeftSideReleased()
-	{
-		OnSideReleased(eScreenTouchSide.Left);
-	}
+		#region Updates
+
+		private void Update()
+		{
+			// using a cached version so we can send none once but then it won't keep sending it
+			if (_cachedScreenTouchSide == eScreenTouchSide.None && _cachedScreenTouchSide == _lastTouchedSide)
+				return;
+
+			SendMovementInput(_lastTouchedSide);
+			_cachedScreenTouchSide = _lastTouchedSide;
+		}
+
+		#endregion
+
+
+		#region Events
+
+		public void OnLeftSidePressed()
+		{
+			_activeTouches.Add(eScreenTouchSide.Left);
+			_lastTouchedSide = eScreenTouchSide.Left;
+		}
+
+		public void OnRightSidePressed()
+		{
+			_activeTouches.Add(eScreenTouchSide.Right);
+			_lastTouchedSide = eScreenTouchSide.Right;
+		}
+
+		public void OnLeftSideReleased()
+		{
+			OnSideReleased(eScreenTouchSide.Left);
+
+		}
 	
-	public void OnRightSideReleased()
-	{
-		OnSideReleased(eScreenTouchSide.Right);
-	}
-
-	private void OnSideReleased(eScreenTouchSide sideReleased)
-	{
-		_activeTouches.Remove(sideReleased);
-
-		if (_activeTouches.Count > 0)
+		public void OnRightSideReleased()
 		{
-			_lastTouchedSide = _activeTouches[_activeTouches.Count - 1];
+			OnSideReleased(eScreenTouchSide.Right);
 		}
-		else
+
+		private void OnSideReleased(eScreenTouchSide sideReleased)
 		{
-			_lastTouchedSide = eScreenTouchSide.None;
+			_activeTouches.Remove(sideReleased);
+
+			if (_activeTouches.Count > 0)
+			{
+				_lastTouchedSide = _activeTouches[_activeTouches.Count - 1];
+			}
+			else
+			{
+				_lastTouchedSide = eScreenTouchSide.None;
+			}
 		}
-	}
 
-	private void SendMovementInput(eScreenTouchSide touchSide)
-	{
-		_screenTouchedEvent.Raise(new ScreenTouchedData {screenTouchSide = touchSide});
-	}
+		private void SendMovementInput(eScreenTouchSide touchSide)
+		{
+			_screenTouchedEvent.Raise(new ScreenTouchedData {screenTouchSide = touchSide});
+		}
 
-	#endregion
+		#endregion
+	}
 }

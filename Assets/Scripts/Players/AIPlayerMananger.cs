@@ -1,60 +1,62 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class AIPlayerMananger : MonoBehaviour
+namespace Ballcade
 {
-    #region Vars
+    public class AIPlayerMananger : MonoBehaviour
+    {
+        #region Vars
 
-    private List<AIPlayerController> _aiPlayers = new List<AIPlayerController>();
+        private List<AIPlayerController> _aiPlayers = new List<AIPlayerController>();
 
-    private bool _shouldUpdate;
+        private bool _shouldUpdate;
 
-    #endregion
+        #endregion
     
 
-    #region Initialise
+        #region Initialise
 
-    public void Initialise(List<AIPlayerController> aiPlayers)
-    {
-        _aiPlayers = aiPlayers;
+        public void Initialise(List<AIPlayerController> aiPlayers)
+        {
+            _aiPlayers = aiPlayers;
 
-        SetUpdateState(true);
-    }
+            SetUpdateState(true);
+        }
 
-    #endregion
+        #endregion
 
-    #region State
+        #region State
 
-    public void SetUpdateState(bool shouldUpdate)
-    {
-        _shouldUpdate = shouldUpdate;
-    }
+        public void SetUpdateState(bool shouldUpdate)
+        {
+            _shouldUpdate = shouldUpdate;
+        }
 
-    #endregion
+        #endregion
     
 
-    #region Update
+        #region Update
 
-    public void Update()
-    {
-        if (!_shouldUpdate)
-            return;
+        public void Update()
+        {
+            if (!_shouldUpdate)
+                return;
         
-        foreach (AIPlayerController aiPlayer in _aiPlayers)
-        {
-            aiPlayer.ManualUpdate();
+            foreach (AIPlayerController aiPlayer in _aiPlayers)
+            {
+                aiPlayer.ManualUpdate();
+            }
         }
-    }
     
-    public void UpdateActiveBalls(List<Ball> activeBalls)
-    {
-        foreach (AIPlayerController aiPlayer in _aiPlayers)
+        public void UpdateActiveBalls(List<Ball> activeBalls)
         {
-            aiPlayer.UpdateActiveBallsList(activeBalls);
+            foreach (AIPlayerController aiPlayer in _aiPlayers)
+            {
+                aiPlayer.UpdateActiveBallsList(activeBalls);
+            }
         }
+
+        #endregion
+
     }
-
-    #endregion
-
 }

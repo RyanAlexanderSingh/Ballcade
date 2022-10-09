@@ -1,5 +1,8 @@
-﻿[System.Serializable]
-public struct VoidData
+﻿namespace Ballcade.VoidEvent
 {
+    [System.Serializable]
+    public struct VoidData
+    {
     
+    }
 }

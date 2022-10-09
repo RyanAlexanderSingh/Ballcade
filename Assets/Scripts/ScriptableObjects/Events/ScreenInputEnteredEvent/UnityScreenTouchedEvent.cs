@@ -1,4 +1,7 @@
 ﻿using UnityEngine.Events;
 
-[System.Serializable]
-public class UnityScreenTouchedEvent : UnityEvent<ScreenTouchedData> { }
+namespace Ballcade.ScreenInputEnteredEvent
+{
+    [System.Serializable]
+    public class UnityScreenTouchedEvent : UnityEvent<ScreenTouchedData> { }
+}
